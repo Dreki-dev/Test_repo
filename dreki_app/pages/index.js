@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import ModalCo from './ModalCo';
 import ModalIn from './ModalIn';
 
-export default function Home() {
+export default function Connexion() {
   const [showModalCo, setShowModalCo] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   
@@ -84,8 +84,6 @@ export default function Home() {
   return (
     <div className="main_content">
       <div className='login_Content'>
-
-
         <div className='logo_content'>
           <div className={`swap_logo_first ${showModalCo ? 'fade-in' : 'fade-out'}`}>
             Bonjour <br /> Connectez-vous!

@@ -1,3 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.help_button a {
+  color: #ffffff; 
+  text-decoration: none; 
+}
+
+.help_button a:hover {
+  color: rgb(0, 60, 255); 
+  text-decoration: underline;
+}
+
 .main_content {
     background-color: white;
     width: 100vw;
@@ -66,6 +82,7 @@
     color: white;
     box-shadow: inset 0 0 0 1px #012087;
     transition: background-color 0.3s ease, color 0.3s ease; 
+    text-decoration: none;
   }
 
   .connexion_button_snd:active {

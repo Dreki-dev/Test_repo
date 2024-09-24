@@ -1,0 +1,104 @@
+.navbar_container {
+    position: relative;
+    min-height: 95vh;
+    height: 95vh;
+    width: 16%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    background-image:url('/images/fond_blue_dreki.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius:12px;
+    margin: 8px;
+    transition: width 0.3s ease;
+}
+
+.navbar_container.expanded {
+    width: 45%;
+    transition: width 0.3s ease;
+
+    background-color: red;
+}
+
+.text_inside_navbar {
+    width: 100%;
+    /* background-color: aliceblue; */
+    color: rgb(255, 255, 255);
+}
+
+.navbar_menu_container{
+    height: 25%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    margin-top: 60%;
+    justify-content: space-between;
+}
+
+.navbar_systeme_container{
+    margin-top: 25%;
+    font-size: 15px;
+    height: 15%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_icon_container {
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+    /* width: 45px; */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button_icon_container:hover {
+    background-color: rgba(240, 248, 255, 0.26);
+}
+
+.button_size_navbar.expanded {
+    transform: rotate(-180deg);
+    transition: transform 0.3s;
+}
+.button_size_navbar {
+    transition: transform 0.3s;
+
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(0, 0, 0);
+    border-radius: 50%;
+    height: 40px;
+    color: #012087;
+    width: 40px;
+    position: absolute;
+    right: -20px;
+    top: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+}
+
+.left_chevron {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid black;
+}
+
+.button_title_hide {
+    margin-left:4px;
+    color: white;
+    font-size: 20px;
+}

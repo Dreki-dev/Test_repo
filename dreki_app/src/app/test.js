@@ -1,8 +1,8 @@
 'use client';
 import './page.css'
 import { useState, useRef } from 'react';
-import ModalCo from './ModalCo';
-import ModalIn from './ModalIn';
+import ModalCo from '../../pages/ModalCo';
+import ModalIn from '../../pages/ModalIn';
 
 export default function Test() {
   const [showModalCo, setShowModalCo] = useState(false);

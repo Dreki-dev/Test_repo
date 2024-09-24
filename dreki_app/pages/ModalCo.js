@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 export default function ModalCo({
@@ -47,9 +48,9 @@ export default function ModalCo({
               Mot de passe oublié ?
             </div>
           </div>
-          <div className='connexion_button_snd'>
+          <Link className='connexion_button_snd' href="/Navbar">
             CONNEXION
-          </div>
+          </Link>
           <div className='no_account_content'>
             <div className='no_account_content_text'>Pas encore inscrit ?</div>
             <div className='no_account_content_button_to_sign'>Inscrivez-vous !</div>
