@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function ModalIn({
-  showModalIn,
+export default function ModalInscription({
+  showModalInscription,
   animationClass,
-  toggleModalIn,
+  toggleModalInscription,
   editingName, setEditingName,
   textName, setTextName,
   editingMail, setEditingMail,
@@ -15,7 +15,7 @@ export default function ModalIn({
   handleClickName, handleClickMail, handleClickMdpC, handleClickMdpV, handleOutsideClickIns
 }) {
   return (
-    <div className={`modalCo_overlay ${animationClass}`} onClick={toggleModalIn}>
+    <div className={`modalCo_overlay ${animationClass}`} onClick={toggleModalInscription}>
       <div className={`modalCo_content ${animationClass}`} onClick={(e) => e.stopPropagation()}>
         <div className='modalCo_content_center' onClick={() => handleOutsideClickIns()}>
           <div className='modalCo_field_content'>

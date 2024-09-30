@@ -1,14 +1,13 @@
-'use client';
-import './page.css'
+import './css/page.css'
 import { useState, useRef } from 'react';
-import ModalCo from './ModalCo';
-import ModalIn from './ModalIn';
+import ModalConnexion from './components/ModalConnexion';
+import ModalInscription from './components/ModalInscription';
 
 export default function Connexion() {
-  const [showModalCo, setShowModalCo] = useState(false);
+  const [showModalConnexion, setShowModalConnexion] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
   
-  const [showModalIn, setShowModalIn] = useState(false);
+  const [showModalInscription, setShowModalInscription] = useState(false);
   
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState("Theo.abitbol@gmail.com")
@@ -24,28 +23,28 @@ export default function Connexion() {
   const [editingMdpV, setEditingMdpV] = useState(false);
   const [textMdpV, setTextMdpV] = useState("***********")
 
-  const toggleModalCo = () => {
-    if (showModalCo) {
+  const toggleModalConnexion = () => {
+    if (showModalConnexion) {
       setAnimationClass('hide');
       setTimeout(() => {
-        setShowModalCo(false);
+        setShowModalConnexion(false);
         setAnimationClass('');
       }, 500);
     } else {
-      setShowModalCo(true);
+      setShowModalConnexion(true);
       setAnimationClass('show');
     }
   };
 
-  const toggleModalIn = () => {
-    if (showModalIn) {
+  const toggleModalInscription = () => {
+    if (showModalInscription) {
       setAnimationClass('hide');
       setTimeout(() => {
-        setShowModalIn(false);
+        setShowModalInscription(false);
         setAnimationClass('');
       }, 500);
     } else {
-      setShowModalIn(true);
+      setShowModalInscription(true);
       setAnimationClass('show');
     }
   };
@@ -85,20 +84,20 @@ export default function Connexion() {
     <div className="main_content">
       <div className='login_Content'>
         <div className='logo_content'>
-          <div className={`swap_logo_first ${showModalCo ? 'fade-in' : 'fade-out'}`}>
+          <div className={`swap_logo_first ${showModalConnexion ? 'fade-in' : 'fade-out'}`}>
             Bonjour <br /> Connectez-vous!
           </div>
-          <div className={`swap_logo_second ${showModalCo ? 'fade-out' : 'fade-in'}`}>
+          <div className={`swap_logo_second ${showModalConnexion ? 'fade-out' : 'fade-in'}`}>
             <img src='/images/dreki_logo.png' alt="Logo" />
           </div>
         </div>
         <div className="slogan_content">
           Bienvenue, connectez-vous !
         </div>
-        <div className='connexion_button' onClick={toggleModalCo}>
+        <div className='connexion_button' onClick={toggleModalConnexion}>
           CONNEXION
         </div>
-        <div className='inscription_button'onClick={toggleModalIn}>
+        <div className='inscription_button'onClick={toggleModalInscription}>
           INSCRIPTION
         </div>
         <div className='help_button'>
@@ -107,11 +106,11 @@ export default function Connexion() {
           </a>
         </div>
       </div>
-      {showModalCo && (
-        <ModalCo
-         showModalCo={showModalCo}
+      {showModalConnexion && (
+        <ModalConnexion
+         showModalConnexion={showModalConnexion}
           animationClass={animationClass}
-          toggleModalCo={toggleModalCo}
+          toggleModalConnexion={toggleModalConnexion}
           editing={editing}
           setEditing={setEditing}
           text={text}
@@ -125,11 +124,11 @@ export default function Connexion() {
           handleOutsideClick2Mdp={handleOutsideClick2Mdp}/>
       )}
 
-      {showModalIn && (
-        <ModalIn
-         showModalIn={showModalIn}
+      {showModalInscription && (
+        <ModalInscription
+         showModalInscription={showModalInscription}
           animationClass={animationClass}
-          toggleModalIn={toggleModalIn}
+          toggleModalInscription={toggleModalInscription}
           editingName={editingName}
           setEditingName={setEditingName}
           textName={textName}

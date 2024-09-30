@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React from 'react';
 
-export default function ModalCo({
-  showModalCo,
+export default function ModalConnexion({
+  showModalConnexion,
   animationClass,
-  toggleModalCo,
+  toggleModalConnexion,
   editing, setEditing,
   text, setText,
   editingMdp, setEditingMdp,
@@ -12,7 +12,7 @@ export default function ModalCo({
   handleOutsideClick, handleOutsideClick2, handleOutsideClick2Mdp
 }) {
   return (
-    <div className={`modalCo_overlay ${animationClass}`} onClick={toggleModalCo}>
+    <div className={`modalCo_overlay ${animationClass}`} onClick={toggleModalConnexion}>
       <div className={`modalCo_content ${animationClass}`} onClick={(e) => e.stopPropagation()}>
         <div className='modalCo_content_center' onClick={() => handleOutsideClick()}>
           <div className='modalCo_field_content'>
@@ -48,7 +48,7 @@ export default function ModalCo({
               Mot de passe oublié ?
             </div>
           </div>
-          <Link className='connexion_button_snd' href="/Navbar">
+          <Link className='connexion_button_snd' href="/dashboard">
             CONNEXION
           </Link>
           <div className='no_account_content'>
