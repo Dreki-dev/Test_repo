@@ -1,0 +1,53 @@
+.button_params {
+    height: 15%;
+    background-color: blue;
+}
+
+.title_params_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10%;
+
+}
+
+.title_params_text {
+    margin: 4px;
+    font-size: 32px;
+    color: #012087;
+}
+
+.button_container_params {
+    height: 10%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 48px;
+}
+
+.button_mdp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    padding-left: 18px;
+    padding-right: 18px;
+    height: 45px;
+    border-radius: 12px;
+}
+
+.button_doc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 12px;
+}

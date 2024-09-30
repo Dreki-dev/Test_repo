@@ -1,18 +1,19 @@
-import DashboardLayout from './layout';
+import DebiteurLayout from './layout';
 import '../css/navbar.css'
 
-export default function Dashboard() {
+export default function Debiteur() {
     return (
-        <DashboardLayout>
+        <DebiteurLayout>
+
             <div className='page_container_navbar'>
 
-                <h1>Tableau  de bords </h1>
+                <h1>Page de debiteur</h1>
                 <form>
                     {/* Formulaire de connexion ici */}
                 </form>
             </div>
 
-        </DashboardLayout>
+        </DebiteurLayout>
 
     );
 }

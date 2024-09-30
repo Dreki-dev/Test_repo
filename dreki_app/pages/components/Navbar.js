@@ -38,26 +38,26 @@ const Navbar = () => {
                 <div className="navbar_expanded_content">
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/app.png' alt="Logo" />
-                        <Link className="link_navbar" href="/page1">Tableau de bord</Link>
+                        <Link className="link_navbar" href="/dashboard">Tableau de bord</Link>
                     </div>
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/facture.png' alt="Logo" />
-                        <Link className="link_navbar" href="/page2">Factures</Link>
+                        <Link className="link_navbar" href="/factures">Factures</Link>
                     </div>
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/user.png' alt="Logo" />
-                        <Link className="link_navbar" href="/page3">Débiteurs</Link>
+                        <Link className="link_navbar" href="/debiteurs">Débiteurs</Link>
                     </div>
                     <div className="line_separator" />
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/param.png' alt="Logo" />
 
-                        <Link className="link_navbar" href="/page3">Paramètres</Link>
+                        <Link className="link_navbar" href="/parametres">Paramètres</Link>
                     </div>
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/logout.png' alt="Logo" />
 
-                        <Link className="link_navbar" href="/page3">Déconnexion</Link>
+                        <Link className="link_navbar" href="/">Déconnexion</Link>
                     </div>
                 </div>
             )}

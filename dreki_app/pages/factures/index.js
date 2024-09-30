@@ -1,18 +1,18 @@
-import DashboardLayout from './layout';
+import FacturesLayout from './layout';
 import '../css/navbar.css'
 
-export default function Dashboard() {
+export default function Facture() {
     return (
-        <DashboardLayout>
+        <FacturesLayout>
             <div className='page_container_navbar'>
 
-                <h1>Tableau  de bords </h1>
+                <h1>Page de factures</h1>
                 <form>
                     {/* Formulaire de connexion ici */}
                 </form>
             </div>
 
-        </DashboardLayout>
+        </FacturesLayout>
 
     );
 }
