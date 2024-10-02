@@ -62,6 +62,7 @@ export default function Parametre() {
                             </div>
                         </>
                     )}
+
                     {activeSection === 'ajouterDoc' && (
                         <div className='container_scroll_doc'>
                             {sections.map((section, index) => (
@@ -70,7 +71,6 @@ export default function Parametre() {
                                         <div className='input_title_container'>
                                             {section} - (<span style={{ textDecoration: 'underline' }}>Format : PDF</span>) :
                                         </div>
-
                                         <div className='placeholder_file_container'>
                                             {fileNames[index] ? fileNames[index] : 'Aucun fichier sélectionné'}
                                         </div>
@@ -84,13 +84,14 @@ export default function Parametre() {
                                             type="file"
                                             style={{ display: 'none' }}
                                             accept="image/*, application/pdf"
-                                            onChange={(e) => handleFileChange(e, index)}  // Passe l'index spécifique
+                                            onChange={(e) => handleFileChange(e, index)}
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
+
                     {activeSection === '' && (
                         <>
                             <div className='input_case_container' style={{ marginTop: '24px' }}>
@@ -135,6 +136,7 @@ export default function Parametre() {
                         </>
 
                     )}
+                    
                 </div>
             </div>
         </ParametreLayout>

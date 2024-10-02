@@ -18,6 +18,7 @@
     /* margin-top: 5%; */
     left: 50%;
     transform: translate(-50%);
+    z-index: 999;
 }
 
 .navbar_container.expanded {
@@ -28,6 +29,21 @@
 }
 
 
+.title_params_text {
+    margin: 4px;
+    font-size: 32px;
+    color: #012087;
+}
+
+.title_params_container {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    height: 10%;
+    width: 95%;
+    align-self: center;
+
+}
 
 .navbar_test {
     /* margin-top: 55%; */

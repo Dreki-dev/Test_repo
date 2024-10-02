@@ -1,0 +1,166 @@
+.button_add_deb {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    padding-left: 24px;
+    padding-right: 24px;
+    height: 45px;
+    border-radius: 6px;
+}
+
+.button_container_deb {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* height: 10%; */
+    width: 95%;
+    align-self: center;
+    margin-left: 8px;
+}
+
+
+.button_add_deb:active {
+    background-color: #012087;
+    color: white;
+}
+
+
+.debiteur_tab_container {
+    margin-top: 12px;
+    width: 95%;
+    height: 80%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #2E3E51;
+    display: flex;
+    align-self: center;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    gap: 10px
+}
+
+.container_scroll_deb {
+    /* background-color: #0877ff; */
+    width: 90%;
+    height: 100%;
+
+    display: flex;
+    /* justify-content: center; */
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 4px;
+}
+
+.input_case_container_deb {
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* color: #2E3E51; */
+    /* background-color: #018713; */
+    flex-shrink: 0
+}
+
+.fixed_input_case_container_deb {
+    position: sticky;
+    width: 90%;
+    height: 40px;
+    top: 0;
+    color: #012087;
+    /* background-color: #9c2626; */
+    z-index: 10; 
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+}
+
+.case_id_menu {
+    color: #012087;
+    display: flex;
+    align-items: center;
+    /* background-color: #012087; */
+    height: 100%;
+    width: 10%;
+}
+
+.case_name_menu {
+    display: flex;
+    align-items: center;
+    /* background-color: #728ce4; */
+    height: 100%;
+    width: 35%;
+}
+.case_phone_menu {
+    display: flex;
+    align-items: center;
+    /* background-color: #686a72; */
+    height: 100%;
+    width: 35%;
+}
+.case_action_menu {
+    display: flex;
+    align-items: center;
+    /* background-color: #1e388e; */
+    height: 100%;
+    width: 20%;
+}
+
+.case_action_menu_button_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #1e388e; */
+    height: 100%;
+    width: 20%;
+}
+
+.button_action_point {
+    height: 8px;
+    width: 8px;
+    border-radius: 8px;
+    background-color: #012087;
+}
+
+
+.case_action_menu_button {
+    display: flex;
+    padding: 8px;
+    border-radius: 8px;
+    gap: 2px;
+}
+
+.case_action_menu_button:active {
+    background-color: #2e3e5126;
+
+}
+
+.modal_back {
+    position: absolute;
+    height: 95vh;
+    width: 100vh;
+    background-color: #0120871e;
+}
+
+.modal_content {
+    border-radius: 12px;
+    width: 140px;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    position: absolute;
+    gap: 24px;
+}

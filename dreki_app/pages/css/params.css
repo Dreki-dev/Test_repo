@@ -3,21 +3,8 @@
     background-color: blue;
 }
 
-.title_params_container {
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    height: 10%;
-    width: 95%;
-    align-self: center;
 
-}
 
-.title_params_text {
-    margin: 4px;
-    font-size: 32px;
-    color: #012087;
-}
 
 .button_container_params {
     height: 10%;
@@ -38,6 +25,7 @@
     padding-left: 24px;
     padding-right: 24px;
     height: 45px;
+    width: 100px;
     border-radius: 12px;
 }
 
@@ -177,12 +165,10 @@
 .container_scroll_doc {
     width: 90%;
     height: 100%;
-
     display: flex;
     /* justify-content: center; */
     align-items: center;
     flex-direction: column;
-    overflow: hidden;
     overflow-y: auto;
     gap: 25px;
     overflow-x: hidden;
