@@ -5,9 +5,11 @@
 
 .title_params_container {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
     height: 10%;
+    width: 95%;
+    align-self: center;
 
 }
 
@@ -23,7 +25,7 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    gap: 48px;
+    gap: 32px;
 }
 
 .button_mdp {
@@ -33,8 +35,8 @@
     align-items: center;
     color: #2E3E51;
     border: 1px solid #2E3E51;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 24px;
+    padding-right: 24px;
     height: 45px;
     border-radius: 12px;
 }
@@ -47,7 +49,151 @@
     height: 45px;
     color: #2E3E51;
     border: 1px solid #2E3E51;
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 24px;
+    padding-right: 24px;
     border-radius: 12px;
+    width: 150px;
+
+}
+.button_mdp:active,
+.button_default:active,
+.button_save:active,
+.button_add_file:active,
+.button_doc:active {
+    background-color: #012087;
+    color: white;
+}
+
+.button_default {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 150px;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 12px;
+}
+
+.button_save {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    width: 45px;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 12px;
+    
+}
+
+
+.part_change_params {
+    width: 95%;
+    height: 80%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #2E3E51;
+    display: flex;
+    align-self: center;
+    align-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    gap: 10px
+    /* justify-content: space-around; */
+}
+
+.input_case_container {
+    width: 85%;
+    height: 75px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #2E3E51;
+}
+
+
+.input_field {
+    border: 1px solid #535f6e7d;
+    outline: none;
+    width: 100%;
+    height: 32px;
+    color: #212529;
+    margin-bottom: 12px;
+    border-radius: 0.25rem;
+    background-color: #F6F9FC;
+}
+
+.input_field:focus {
+    box-shadow: 0 0 0 3px #437e9757;
+    border: 1px solid #535f6e;
+}
+
+.input_title_container {
+    width: 100%;
+    color: #2E3E51;
+
+}
+
+.bouton_save_container {
+    display: flex;
+    width: 85%;
+    justify-self: center;
+    justify-content: flex-end;
+}
+
+.placeholder_file_container {
+    height: 35px;
+    background-color: #0120870c;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+
+}
+
+.button_add_file {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 150px;
+    color: #1d2733;
+    border: 1px solid #2E3E51;
+    background-color: #535f6e25;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.container_scroll_doc {
+    width: 90%;
+    height: 100%;
+
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+    gap: 25px;
+    overflow-x: hidden;
+}
+
+.input_case_container_file {
+    width: 85%;
+    height: 100px;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #2E3E51;
 }

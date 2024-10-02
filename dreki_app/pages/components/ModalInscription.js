@@ -20,7 +20,7 @@ export default function ModalInscription({
         <div className='modalCo_content_center' onClick={() => handleOutsideClickIns()}>
           <div className='modalCo_field_content'>
             <div className='modalCo_field_title'>
-              Nom Complet
+              Nom complet
             </div>
             <div className='modalCo_field_case' onClick={(e) => e.stopPropagation()}>
               {editingName ? (
