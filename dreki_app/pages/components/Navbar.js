@@ -54,7 +54,7 @@ const Navbar = () => {
 
                         <Link className="link_navbar" href="/parametres">Paramètres</Link>
                     </div>
-                    <div className="expanded_item">
+                    <div className="expanded_item" style={{marginBottom: '24px'}}>
                         <img className="navbar_icon" src='/images/logout.png' alt="Logo" />
 
                         <Link className="link_navbar" href="/">Déconnexion</Link>
@@ -68,44 +68,3 @@ export default Navbar;
 // vps chez ovh pour monter un serveur de dev / pas besoins de gros server car juste front / Montéee petit vps / environnement de dev /
 // demmander un serveur nodejs demarage au lancement du serveur + mode dev / bien gere le code / reutilisation ou pas 
 // sous domaine njinx
-
-{/* <div className={`button_size_navbar ${isExpanded ? 'expanded' : ''}`} onClick={handleButtonClick}>
-                &#x276F;
-            </div>
-            <img style={{ marginTop: '4px', marginBottom: '4px' }} src='/images/logo_mini_dreki.png' alt="Logo" />
-            <div className="navbar_menu_container">
-                <div className="text_inside_navbar">Menu</div>
-                <Link className="button_icon_container" href="/dashboard">
-                    <img style={{ margin: '4px' }} src='/images/app.png' alt="Logo" />
-                    {isExpanded && (
-                        <div className="button_title_hide">Console</div>
-                    )}
-                </Link>
-                <Link className="button_icon_container" href="/agenda">
-                    <img style={{ marginTop: '4px', marginBottom: '4px' }} src='/images/facture.png' alt="Logo" />
-                    {isExpanded && (
-                        <div className="button_title_hide">Factures</div>
-                    )}
-                </Link>
-                <div className="button_icon_container">
-                    <img style={{ marginTop: '4px', marginBottom: '4px' }} src='/images/user.png' alt="Logo" />
-                    {isExpanded && (
-                        <div className="button_title_hide">Débiteurs</div>
-                    )}
-                </div>
-            </div>
-            <div className="navbar_systeme_container">
-                <div className="text_inside_navbar">Système</div>
-                <div className="button_icon_container">
-                    <img style={{ marginTop: '4px', marginBottom: '4px' }} src='/images/param.png' alt="Logo" />
-                    {isExpanded && (
-                        <div className="button_title_hide">Paramètres</div>
-                    )}
-                </div>
-                <Link className="button_icon_container" href="/">
-                    <img style={{ marginTop: '4px', marginBottom: '4px' }} src='/images/logout.png' alt="Logo" />
-                    {isExpanded && (
-                        <div className="button_title_hide">Déconnexion</div>
-                    )}
-                </Link>
-            </div> */}

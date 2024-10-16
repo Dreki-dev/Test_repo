@@ -4,15 +4,12 @@
 }
 
 
-
-
 .button_container_params {
     height: 10%;
     width: 100%;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     display: flex;
-    gap: 32px;
 }
 
 .button_mdp {
@@ -37,10 +34,11 @@
     height: 45px;
     color: #2E3E51;
     border: 1px solid #2E3E51;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
     border-radius: 12px;
     width: 150px;
+    white-space: nowrap;
 
 }
 .button_mdp:active,
@@ -48,6 +46,11 @@
 .button_save:active,
 .button_add_file:active,
 .button_doc:active {
+    background-color: #012087;
+    color: white;
+}
+.button_default.active,
+.button_doc.active {
     background-color: #012087;
     color: white;
 }
@@ -61,9 +64,10 @@
     width: 150px;
     color: #2E3E51;
     border: 1px solid #2E3E51;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
     border-radius: 12px;
+    white-space: nowrap;
 }
 
 .button_save {
@@ -93,13 +97,15 @@
     flex-direction: column;
     align-items: center;
     border-radius: 12px;
-    gap: 10px
+    gap: 10px;
+    overflow: hidden;
+    overflow-y: scroll;
     /* justify-content: space-around; */
 }
 
 .input_case_container {
     width: 85%;
-    height: 75px;
+    min-height: 75px;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -134,7 +140,7 @@
     display: flex;
     width: 85%;
     justify-self: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .placeholder_file_container {

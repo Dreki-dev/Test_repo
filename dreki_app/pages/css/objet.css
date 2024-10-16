@@ -1,0 +1,88 @@
+
+.facture_obj_container {
+    margin-top: 12px;
+    width: 95%;
+    height: 80%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #2e3e5154;
+    display: flex;
+    align-self: center;
+    /* align-content: center; */
+    padding-top: 5%;
+    padding-bottom: 5%;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    gap: 14px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.notecase_container {
+    width: 95%;
+    height: 45%;
+    min-height: 15%;
+    max-height: auto;
+    background-color: #F6F9FC;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    /* border: 1px solid black; */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    
+
+}
+.notecase_container.has-button {
+    min-height: 30%;
+}
+.notecase_container.expanded {
+    min-height: 50%;
+}
+
+.notecase_title_container {
+    height: 25%;
+    width: 100%;
+    /* background-color: blueviolet; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.124);
+}
+
+.text_container.expanded {
+    height: 1000px;
+}
+.title_var {
+    justify-content: center
+    ;
+    width: 30%;
+    /* background-color: aquamarine; */
+    height: 100%;
+    align-items: center;
+    display: flex;
+    color: #012087;
+}
+
+.text_container {
+    padding: 1%;
+    margin: 1%;
+    height: 60%;
+    width: 95%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+}
+
+.button_voirplus {
+    right: 2.5%;
+    position: absolute;
+}
+
+.button_voirplus_container {
+    min-height: 15%;
+    width: 100%;
+}

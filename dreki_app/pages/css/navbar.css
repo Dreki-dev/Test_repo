@@ -33,6 +33,7 @@
     margin: 4px;
     font-size: 32px;
     color: #012087;
+    display: flex;
 }
 
 .title_params_container {
@@ -166,21 +167,24 @@
 
 .navbar_expanded_content {
     width: 100%;
-    margin-top: 15%;
+    margin-top: 65px;
     height: 80%;
     /* background-color: rgb(0, 135, 253); */
     /* justify-content: center; */
     align-items: center;
     display: flex;
     flex-direction: column;
-    gap: 4px
+    gap: 2%
 }
 
 .expanded_item {
+    display: flex;
+    align-items: center;
     margin: 4px;
     width: 90%;
+    height: 10%;
     border-radius: 12px;
-    padding: 12px;
+    padding: 4px 12px 4px 12px ;
     background-color: rgba(255, 255, 255, 0.08);
 }
 
@@ -193,7 +197,7 @@
 
 .link_navbar {
     color: white;
-    font-size: 20px;
+    font-size: 95%;
     text-decoration: none;
     font-weight: 600;
 }
@@ -213,5 +217,6 @@
     height: 90vh;
     margin-top: 15%;
     background-color: #F6F9FC;
+    
 }
 

@@ -1,0 +1,61 @@
+.box_container_dashboard {
+    width: 100%;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* overflow-x: scroll; */
+    /* overflow: hidden; */
+    align-items: center;
+}
+
+.box_information_dashboard {
+    min-height: 75px;
+    width: 95%;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    border-radius: 12px;
+}
+
+.title_information_dashboard {
+    height: 45%;
+    width: 100%;
+    background-color: rgba(0, 55, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    color: #012087;
+}
+
+.data_information {
+    font-size: 25px;
+    margin-top: 4px;
+    margin-left: 4px;
+}
+
+.button_acton_voirplus {
+    text-decoration: none;
+    color: inherit;
+    padding: 4px;
+    border-radius: 11px;
+}
+
+.button_acton_voirplus:active {
+    background-color: #0120872d;
+}
+
+.scroll_dashboard_container {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    overflow-y: scroll;
+}
+
+.title_container_tab {
+    height: 15%;
+    width: 100%;
+    background-color: #012087;
+    color: aliceblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
