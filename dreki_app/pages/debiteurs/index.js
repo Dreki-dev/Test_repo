@@ -1,9 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
 import DebiteurLayout from './layout';
 import '../css/navbar.css'
 import '../css/debiteurs.css'
 
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Debiteur() {
     const handleBlur = () => {
@@ -13,6 +15,7 @@ export default function Debiteur() {
     };
     const [textDeroulantMenu, setTextDeroulantMenu] = useState('Entreprise');
     const [isEditingDeroulantMenu, setEditingDeroulantMenu] = useState(false);
+    const router = useRouter();
 
     const handleSelectChoiceDeroulantMenu = (choice) => {
         setTextDeroulantMenu(choice);
@@ -37,7 +40,7 @@ export default function Debiteur() {
 
     const handleClick = (debiteur) => {
         setSelectedDebiteur(debiteur);
-        setIsModalOpen(true); 
+        setIsModalOpen(true);
     };
 
     const handleClickDeroulant = (e) => {
@@ -60,20 +63,11 @@ export default function Debiteur() {
     const [sortAscStat, setSortAscStat] = useState(true);
     const [sortAscDue, setSortAscDue] = useState(true);
     const [debiteurs, setDebiteurs] = useState([
-        { name: 'CTheo', id: '1', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '544788' },
-        { name: 'ZTheo', id: '2', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '1444' },
-        { name: 'ZTheo', id: '3', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '1' },
-        { name: 'ZTheo', id: '4', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '188775' },
-        { name: 'ZTheo', id: '5', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '999' },
-        { name: 'ATheo', id: '6', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '785' },
-        { name: 'BTheo', id: '7', backColor: 'rgba(255, 0, 0, 0.085)', textColor: 'rgba(255, 0, 0, 1)', textPaie: 'Paiement inexistant', due: '1475' },
-        { name: 'ATheo', id: '8', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '753' },
-        { name: 'ATheo', id: '9', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '55' },
-        { name: 'ATheo', id: '10', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '1245' },
-        { name: 'ATheo', id: '11', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '9655' },
-        { name: 'ATheo', id: '12', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '5554' },
-        { name: 'ATheo', id: '13', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '1222' },
-        { name: 'ATheo', id: '14', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '2' },
+        { name: 'Theo Dupont', id: '1', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '544788' },
+        { name: 'Jean Martin', id: '2', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '1444' },
+        { name: 'Marie Lefevre', id: '3', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '188775' },
+        { name: 'Emma Moreau', id: '4', backColor: 'rgba(255, 0, 0, 0.085)', textColor: 'rgba(255, 0, 0, 1)', textPaie: 'Paiement inexistant', due: '1475' },
+        { name: 'Lucas Girard', id: '5', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '753' },
     ]);
 
     const handleSortDue = () => {
@@ -135,6 +129,14 @@ export default function Debiteur() {
     };
 
     const [searchTerm, setSearchTerm] = useState('');
+
+
+    const [debiteur, setDebiteur] = useState(null);
+    useEffect(() => {
+        const { debiteur: debiteurFromUrl } = router.query;
+        setDebiteur(debiteurFromUrl || null);
+    }, [router.query]);
+
     const filteredDebiteur = debiteurs.filter(fact => {
         const searchTermLower = searchTerm.toLowerCase();
 
@@ -143,15 +145,25 @@ export default function Debiteur() {
         const dueMatches = fact.due.includes(searchTerm);
         const stateMatches = fact.textPaie.includes(searchTerm);
 
-        return nameMatches || dueMatches || stateMatches;
+        const debiteurMatches = debiteur ? fact.name === debiteur : true;
+
+        return (nameMatches || dueMatches || stateMatches) && debiteurMatches;
     });
     return (
         <DebiteurLayout>
             <div className='page_container_navbar'>
-                <div className='title_params_container'>
+                <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div className='title_params_text'>Débiteurs</div>
+                    <div
+                        className='reset_filter_button'
+                        onClick={() => {
+                            setSearchTerm('');
+                            setDebiteur(null);
+                        }}
+                    >
+                        Réinitialisez le filtre
+                    </div>
                 </div>
-
                 <div className='button_container_deb'>
                     {!docButtonClicked ? (
                         <div className='button_add_deb' onClick={() => {
@@ -203,10 +215,12 @@ export default function Debiteur() {
                 )}
                 {activeSection === 'ajouterDeb' && (
                     <div className='debiteur_tab_container'>
-
+                        <div className='preventif_text_container' style={{ marginTop: '24px' }}>
+                            Attention ! Les champs marqué d'un '*' ne seront pas modifiable dans l'avenir.
+                        </div>
                         <div className='input_case_container' style={{ marginTop: '24px' }}>
                             <div className='input_title_container' >
-                                Type :
+                                *Type :
                             </div>
                             <input readOnly className='input_field' value={textDeroulantMenu} onClick={handleClickDeroulant} style={{ backgroundColor: '#d2d5d7' }} onBlur={handleBlur} />
 
@@ -221,7 +235,7 @@ export default function Debiteur() {
                                 </div>
                                 <div className='input_case_container' >
                                     <div className='input_title_container' >
-                                        SIREN
+                                        *SIREN
                                     </div>
                                     <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
                                 </div>
@@ -231,7 +245,7 @@ export default function Debiteur() {
 
                         <div className='input_case_container' >
                             <div className='input_title_container' >
-                                Nom du contact
+                                *Nom du contact
                             </div>
                             <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
                         </div>
@@ -322,10 +336,14 @@ export default function Debiteur() {
                             <div className='Title_modal_debiteur'>
                                 Action
                             </div>
-                            <Link href="/factures" className='Link_modif_modal_debiteur'>
-                                voir les Factures
+                            <Link
+                                href={{ pathname: '/factures', query: { debiteur: selectedDebiteur.name } }}
+                                className='Link_modif_modal_debiteur'>
+                                Voir les Factures
                             </Link>
-                            <Link href="/factures" className='Link_modif_modal_debiteur'>
+                            <Link
+                                href={{ pathname: '/mod_debiteurs', query: { debiteur: selectedDebiteur.name } }}
+                                className='Link_modif_modal_debiteur'>
                                 modifier le débiteur
                             </Link>
                         </div>

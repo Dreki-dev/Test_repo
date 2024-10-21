@@ -9,23 +9,78 @@ import red_dragon from '../../public/images/logo_mini_dreki_red.png'
 import Link from 'next/link';
 
 export default function Dashboard() {
-    const objet = [
-        { id: 1, numero: '999999', montant: 245, total: 312 },
-        { id: 2, numero: '888888', montant: 150, total: 400 },
-    ];
+
     const [facture, setFacture] = useState([
-        { name: 'CTheo', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '1', numero: '422' },
-        { name: 'ZTheo', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '2', numero: '12' },
-        { name: 'ATheo', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '3', numero: '2' },
-        { name: 'BTheo', dragon: red_dragon, backColor: 'rgba(255, 0, 0, 0.085)', euro: '544', id: '4', numero: '3644' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '125', id: '5', numero: '9754' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '4475', id: '6', numero: '245' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '22475', id: '7', numero: '198' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '199', id: '8', numero: '37' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '75', id: '9', numero: '49' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '1254', id: '10', numero: '666' },
-        { name: 'ATheo', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '25222', id: '11', numero: '7532' },
+        { name: 'Theo Dupont', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '1', numero: '422' },
+        { name: 'Jean Martin', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '2', numero: '12' },
+        { name: 'Marie Lefevre', dragon: blue_dragon, backColor: '#01208729', euro: '158445', id: '3', numero: '2' },
+        { name: 'Emma Moreau', dragon: red_dragon, backColor: 'rgba(255, 0, 0, 0.085)', euro: '544', id: '4', numero: '3644' },
+        { name: 'Lucas Girard', dragon: white_dragon, backColor: 'rgba(16, 137, 16, 0.085)', euro: '125', id: '5', numero: '9754' },
+        
     ]);
+
+    // const [facturesAvecDragon, setFacturesAvecDragon] = useState([
+    //     {
+    //         name: 'Theo Dupont',
+    //         dragon: dragons.blue_dragon,
+    //         backColor: '#01208729',
+    //         euro: '158445',
+    //         id: '1',
+    //         numero: '10001',
+    //         total: 312,
+    //         aRecuperer: 245,
+    //         dateEmission: '12/05/2000',
+    //         dateEcheance: '23/08/2025'
+    //     },
+    //     {
+    //         name: 'Jean Martin',
+    //         dragon: dragons.blue_dragon,
+    //         backColor: '#01208729',
+    //         euro: '158445',
+    //         id: '2',
+    //         numero: '10002',
+    //         total: 600,
+    //         aRecuperer: 500,
+    //         dateEmission: '15/07/2022',
+    //         dateEcheance: '01/10/2025'
+    //     },
+    //     {
+    //         name: 'Marie Lefevre',
+    //         dragon: dragons.blue_dragon,
+    //         backColor: '#01208729',
+    //         euro: '158445',
+    //         id: '3',
+    //         numero: '10003',
+    //         total: 450,
+    //         aRecuperer: 300,
+    //         dateEmission: '10/02/2021',
+    //         dateEcheance: '30/12/2025'
+    //     },
+    //     {
+    //         name: 'Emma Moreau',
+    //         dragon: dragons.red_dragon,
+    //         backColor: 'rgba(255, 0, 0, 0.085)',
+    //         euro: '544',
+    //         id: '4',
+    //         numero: '10004',
+    //         total: 700,
+    //         aRecuperer: 544,
+    //         dateEmission: '01/01/2020',
+    //         dateEcheance: '15/05/2025'
+    //     },
+    //     {
+    //         name: 'Lucas Girard',
+    //         dragon: dragons.white_dragon,
+    //         backColor: 'rgba(16, 137, 16, 0.085)',
+    //         euro: '125',
+    //         id: '5',
+    //         numero: '10005',
+    //         total: 300,
+    //         aRecuperer: 125,
+    //         dateEmission: '05/09/2021',
+    //         dateEcheance: '22/11/2025'
+    //     },
+    // ]);
     const handleClick = (buttonRef) => {
         if (buttonRef.current) {
             console.log("clickmodale")
@@ -59,7 +114,7 @@ export default function Dashboard() {
         );
     };
 
-    const NoteCase = ({ name, dragon, numero }) => {
+    const NoteCase = ({ name, dragon, numero, id }) => {
         console.log(dragon)
         return (
             <div className='input_case_container_fac' style={{ justifyContent: 'space-around' }}>
@@ -70,7 +125,7 @@ export default function Dashboard() {
                     {numero}
                 </div>
                 <div className='action_container_tab_fac'>
-                    <Link className='button_acton_voirplus no-select' href={`/objet/${objet.id}`} >voir note</Link>
+                    <Link className='button_acton_voirplus no-select' href={`/objet/${id}`} >voir note</Link>
                 </div>
             </div>
         );
@@ -160,6 +215,7 @@ export default function Dashboard() {
                                         name={factures.name}
                                         dragon={factures.dragon}
                                         numero={factures.numero}
+                                        id={factures.id}
                                     />
                                 ))}
                             </div>

@@ -15,7 +15,7 @@ const Navbar = () => {
         if (isExpanded) {
             const timer = setTimeout(() => {
                 setShowContent(true);
-            }, 300); 
+            }, 300);
 
             return () => clearTimeout(timer);
         } else {
@@ -26,7 +26,10 @@ const Navbar = () => {
         <div className={`navbar_container ${isExpanded ? 'expanded' : ''}`}>
             <div className="navbar_menu_title">
 
-                <img className="img_logo_white" src='/images/white_dreki_logo.png' alt="Logo" />
+                <Link href="/dashboard">
+                    <img className="img_logo_white" src='/images/white_dreki_logo.png' alt="Logo" />
+
+                </Link>
                 <div className="button_size_navbar" onClick={handleButtonClick}>
                     <div className="inside_menu_button"></div>
                     <div className="inside_menu_button"></div>
@@ -54,10 +57,12 @@ const Navbar = () => {
 
                         <Link className="link_navbar" href="/parametres">Paramètres</Link>
                     </div>
-                    <div className="expanded_item" style={{marginBottom: '24px'}}>
+                    <div className="expanded_item" style={{ marginBottom: '24px' }}>
                         <img className="navbar_icon" src='/images/logout.png' alt="Logo" />
 
                         <Link className="link_navbar" href="/">Déconnexion</Link>
+                    </div>
+                    <div className="overlay_quit_navbar" onClick={handleButtonClick}>
                     </div>
                 </div>
             )}

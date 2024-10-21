@@ -24,7 +24,7 @@
 .navbar_container.expanded {
     height: 45%;
     transition: height 0.3s ease;
-
+    z-index: 1000;
     /* background-color: red; */
 }
 
@@ -178,6 +178,7 @@
 }
 
 .expanded_item {
+    z-index: 1000;
     display: flex;
     align-items: center;
     margin: 4px;
@@ -220,3 +221,11 @@
     
 }
 
+.overlay_quit_navbar {
+    position: fixed;
+    height: 55vh;
+    width: 100vw;
+    /* background-color: red; */
+    z-index: 100;
+    margin-top: 70%;
+}

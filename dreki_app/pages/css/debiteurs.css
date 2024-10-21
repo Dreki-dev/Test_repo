@@ -164,6 +164,15 @@
     border-radius: 8px;
     gap: 2px;
 }
+.reset_filter_button {
+    background-color: #01208730;
+    width: 40%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+}
 
 .case_action_menu_button:active {
     background-color: #2e3e5126;
@@ -274,7 +283,7 @@
     flex-shrink: 0;
     white-space: nowrap;
 }
-
+.reset_filter_button:active,
 .button_save:active {
     background-color: #012087;
     color: white;
@@ -350,3 +359,14 @@
     font-weight: 400;
 }
 
+.preventif_text_container {
+    height: 95px;
+    width: 85%;
+    background-color: #0120871b;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+}

@@ -41,9 +41,20 @@
 
 .button_modal_facture_note:active,
 .button_modal_facture_edit:active,
+.reset_filter_button:active,
 .button_add_fac:active {
     background-color: #012087;
     color: white;
+}
+
+.reset_filter_button {
+    background-color: #01208730;
+    width: 40%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
 }
 
 .facture_tab_container {
