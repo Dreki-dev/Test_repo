@@ -276,7 +276,8 @@ export default function Debiteur() {
                 )}
                 {isEditingDeroulantMenu && (
                     <ModalMenuDeroulant2
-                        dropdownPosition={dropdownPosition}
+                        top={dropdownPosition.top}
+                        left={dropdownPosition.left}
                         handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
                     />
                 )}
@@ -284,6 +285,9 @@ export default function Debiteur() {
                    <ModalSelectedDebiteur
                         closeModal={closeModal}
                         selectedDebiteur={selectedDebiteur}
+                        name={selectedDebiteur.name}
+                        due={selectedDebiteur.due}
+                        
                    />
                 )}
             </div>

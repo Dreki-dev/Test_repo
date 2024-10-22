@@ -6,6 +6,11 @@ export default function ModalViewFacture({
     selectedFacture,
     openDragonModal,
     blue_dragon,
+    id,
+    dateEmission,
+    dateEcheance,
+    aRecuperer,
+    total
 }) {
     return (
         <div className='modal_back_fac' onClick={closeModal}>
@@ -23,7 +28,7 @@ export default function ModalViewFacture({
                 <div className='num_line_modal_facture'>
                     Numero :
                     <div className='num_container_line_modal_facture'>
-                        {selectedFacture.id}
+                        {id}
                     </div>
                 </div>
                 <div className='euro_line_modal_facture'>
@@ -34,22 +39,22 @@ export default function ModalViewFacture({
                     </div>
                     <div className='percent_container_line_modal_facture'>
                         <div className='part_percent_container_line_modal_facture' style={{ width: '60%' }}>
-                            {selectedFacture.aRecuperer}
+                            {aRecuperer}
                         </div>
                         <div className='part_percent_container_line_modal_facture' style={{ width: '40%', justifyContent: 'flex-end' }}>
-                            total : {selectedFacture.total}
+                            total : {total}
                         </div>
                     </div>
                 </div>
                 <div className='time_line_modal_facture'>
                     <div className='part_time_line_modal_facture'>
                         Date emission :
-                        <div className='date_part_time_line_modal_facture'>{selectedFacture.dateEmission}</div>
+                        <div className='date_part_time_line_modal_facture'>{dateEmission}</div>
 
                     </div>
                     <div className='part_time_line_modal_facture'>
                         Date echeance :
-                        <div className='date_part_time_line_modal_facture'>{selectedFacture.dateEcheance}</div>
+                        <div className='date_part_time_line_modal_facture'>{dateEcheance}</div>
                     </div>
                 </div>
                 <div className='note_line_modal_facture'>
@@ -61,7 +66,7 @@ export default function ModalViewFacture({
                         <div className='separator_note_container_line_modal_facture'> </div>
 
                         <div className='button_note_container_line_modal_facture' style={{ width: '20%' }}>
-                            <Link href={`/objet/${selectedFacture.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <Link href={`/objet/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                 Voir
                             </Link>
                         </div>
@@ -70,7 +75,7 @@ export default function ModalViewFacture({
                 <div className='dragon_line_modal_facture'>
                     <div className='dragon_container_line_modal_facture'>
                         <div className='icon_dragon_container_line_modal_facture'>
-                            <img src={blue_dragon.src} alt="dragon image" className='dragon_logo' />
+                            <img src={blue_dragon} alt="dragon image" className='dragon_logo' />
                         </div>
                         <div className='relance_dragon_container_line_modal_facture' onClick={openDragonModal}>
                             pas encore relancé <div className='fleche' />

@@ -4,6 +4,8 @@ import Link from 'next/link';
 export default function ModalSelectedDebiteur({
     closeModal,
     selectedDebiteur,
+    name,
+    due
 }) {
     return (
         <div className='modal_back' onClick={closeModal}>
@@ -20,7 +22,7 @@ export default function ModalSelectedDebiteur({
                     <div style={{ width: '120px' }}>
                         Nom :
                     </div>
-                    <div className='Subtitle_modal_debiteur_information'>{selectedDebiteur.name}</div>
+                    <div className='Subtitle_modal_debiteur_information'>{name}</div>
                 </div>
                 <div className='Subtitle_modal_debiteur'>
                     <div style={{ width: '120px' }}>
@@ -32,18 +34,18 @@ export default function ModalSelectedDebiteur({
                     <div style={{ width: '120px' }}>
                         Montant due :
                     </div>
-                    <div className='Subtitle_modal_debiteur_information'>{selectedDebiteur.due} $</div>
+                    <div className='Subtitle_modal_debiteur_information'>{due} $</div>
                 </div>
                 <div className='Title_modal_debiteur'>
                     Action
                 </div>
                 <Link
-                    href={{ pathname: '/factures', query: { debiteur: selectedDebiteur.name } }}
+                    href={{ pathname: '/factures', query: { debiteur: name } }}
                     className='Link_modif_modal_debiteur'>
                     Voir les Factures
                 </Link>
                 <Link
-                    href={{ pathname: '/mod_debiteurs', query: { debiteur: selectedDebiteur.name } }}
+                    href={{ pathname: '/mod_debiteurs', query: { debiteur: name } }}
                     className='Link_modif_modal_debiteur'>
                     modifier le débiteur
                 </Link>

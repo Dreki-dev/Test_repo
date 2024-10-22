@@ -311,7 +311,12 @@ export default function Facture() {
                         closeModal={closeModal}
                         selectedFacture={selectedFacture}
                         openDragonModal={openDragonModal}
-                        blue_dragon={blue_dragon}
+                        blue_dragon={blue_dragon.src}
+                        id={selectedFacture.id}
+                        dateEmission={selectedFacture.dateEmission}
+                        dateEcheance={selectedFacture.dateEcheance}
+                        aRecuperer={selectedFacture.aRecuperer}
+                        total={selectedFacture.total}
                     />
                 )}
 
@@ -320,14 +325,15 @@ export default function Facture() {
                         closeDragonModal={closeDragonModal}
                         toggleDropdown={toggleDropdown}
                         isOpen={isOpen}
-                        blue_dragon={blue_dragon}
-                        red_dragon={red_dragon}
-                        white_dragon={white_dragon}
+                        blue_dragon={blue_dragon.src}
+                        red_dragon={red_dragon.src}
+                        white_dragon={white_dragon.src}
                     />
                 )}
                 {isEditingDeroulantMenu && (
                     <ModalMenuDeroulant
-                        dropdownPosition={dropdownPosition}
+                        left={dropdownPosition.left}
+                        top={dropdownPosition.top}
                         filteredChoices={filteredChoices}
                         handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
                     />

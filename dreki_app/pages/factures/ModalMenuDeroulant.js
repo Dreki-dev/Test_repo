@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ModalMenuDeroulant({
-    dropdownPosition,
     filteredChoices,
     handleSelectChoiceDeroulantMenu,
-
+    left,
+    top,
 }) {
-    return (
+    console.log(filteredChoices)
+    return (    
         <div style={{ width: '55%' }}>
         <div className='dropdown_menu' style={{
             border: '1px solid #ccc',
@@ -18,8 +19,8 @@ export default function ModalMenuDeroulant({
             display: 'flex',
             flexDirection: 'column',
             width: '45%',
-            top: dropdownPosition.top,
-            left: dropdownPosition.left,
+            top: top,
+            left: left,
             height: '15%',
             overflowY: 'scroll',
         }}>

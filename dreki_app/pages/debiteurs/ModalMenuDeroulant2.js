@@ -3,6 +3,8 @@ import Link from 'next/link';
 
 export default function ModalMenuDeroulant2({
     dropdownPosition,
+    top,
+    left,
     handleSelectChoiceDeroulantMenu,
 }) {
     return (
@@ -16,8 +18,8 @@ export default function ModalMenuDeroulant2({
                 display: 'flex',
                 flexDirection: 'column',
                 width: '50%',
-                top: dropdownPosition.top,
-                left: dropdownPosition.left,
+                top: top,
+                left: left,
             }}>
                 <div onClick={() => handleSelectChoiceDeroulantMenu('Entreprise')} style={{ padding: '5px', cursor: 'pointer' }}>Entreprise</div>
                 <div onClick={() => handleSelectChoiceDeroulantMenu('Particulier')} style={{ padding: '5px', cursor: 'pointer' }}>Particulier</div>

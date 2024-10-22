@@ -40,7 +40,7 @@ export default function ModalDragon({
                     {/* Section qui affiche le choix sélectionné */}
                     <div className='dropdown_menu_choice_container'>
                         {/* Image du dragon sélectionné */}
-                        <img src={selectedChoice.dragon.src} alt="dragon image" className='dragon_logo' />
+                        <img src={selectedChoice.dragon} alt="dragon image" className='dragon_logo' />
                         {/* Texte sélectionné */}
                         <div>{selectedChoice.text} {isOpen ? '▲' : '▼'}</div>
                     </div>
@@ -49,28 +49,28 @@ export default function ModalDragon({
                     <div className={`dropdown_menu ${isOpen ? 'show' : 'hide'}`}>
                         <div className='dropdown_menu_choice' style={{ marginTop: '12px' }} onClick={() => handleSelectChoice('Relance amiable', white_dragon)}>
                             <div className='dropdown_menu_choice_container'>
-                                <img src={white_dragon.src} alt="dragon image" className='dragon_logo' />
+                                <img src={white_dragon} alt="dragon image" className='dragon_logo' />
                                 <div>Relance amiable</div>
                             </div>
                         </div>
 
                         <div className='dropdown_menu_choice' onClick={() => handleSelectChoice('Relance contentieux', blue_dragon)}>
                             <div className='dropdown_menu_choice_container'>
-                                <img src={blue_dragon.src} alt="dragon image" className='dragon_logo' />
+                                <img src={blue_dragon} alt="dragon image" className='dragon_logo' />
                                 <div>Relance contentieux</div>
                             </div>
                         </div>
 
                         <div className='dropdown_menu_choice' onClick={() => handleSelectChoice('Relance judiciaire', red_dragon)}>
                             <div className='dropdown_menu_choice_container'>
-                                <img src={red_dragon.src} alt="dragon image" className='dragon_logo' />
+                                <img src={red_dragon} alt="dragon image" className='dragon_logo' />
                                 <div>Relance judiciaire</div>
                             </div>
                         </div>
 
                         <div className='dropdown_menu_choice' onClick={() => handleSelectChoice('Réussi', white_dragon)}>
                             <div className='dropdown_menu_choice_container'>
-                                <img src={white_dragon.src} alt="dragon image" className='dragon_logo' />
+                                <img src={white_dragon} alt="dragon image" className='dragon_logo' />
                                 <div>Réussi</div>
                             </div>
                         </div>
