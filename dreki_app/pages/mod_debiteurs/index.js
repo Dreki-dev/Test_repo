@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import AddDebiteurLayout from './layout';
-import '../css/debiteurs.css'
+import MyLayout from '../Layout/layout';
+import '../css/debiteurs.css';
+import '../css/sharefeatures.css';
 
 export default function ModiDebiteur() {
     const router = useRouter();
@@ -90,18 +91,18 @@ export default function ModiDebiteur() {
         }
     ]);
 
-
     const [selectedDebiteur, setSelectedDebiteur] = useState(null);
-
-    const [raisonSociale, setRaisonSociale] = useState("");
-    const [siren, setSiren] = useState("");
-    const [nomContact, setNomContact] = useState("");
-    const [adresse, setAdresse] = useState("");
-    const [codePostal, setCodePostal] = useState("");
-    const [ville, setVille] = useState("");
-    const [telephone, setTelephone] = useState("");
-    const [email, setEmail] = useState("");
-    const [type, setType] = useState("");
+    const [formData, setFormData] = useState({
+        raisonSociale: '',
+        siren: '',
+        nomContact: '',
+        adresse: '',
+        codePostal: '',
+        ville: '',
+        telephone: '',
+        email: '',
+        type: ''
+    });
 
     useEffect(() => {
         if (debiteurFromUrl) {
@@ -110,33 +111,33 @@ export default function ModiDebiteur() {
             );
             if (foundDebiteur) {
                 setSelectedDebiteur(foundDebiteur);
-                setRaisonSociale(foundDebiteur.raisonSociale);
-                setSiren(foundDebiteur.id);
-                setNomContact(foundDebiteur.name);
-                setAdresse(foundDebiteur.adresse);
-                setCodePostal(foundDebiteur.codePostal);
-                setVille(foundDebiteur.ville);
-                setTelephone(foundDebiteur.telephone);
-                setEmail(foundDebiteur.email);
-                setType(foundDebiteur.type);
+                setFormData({
+                    raisonSociale: foundDebiteur.raisonSociale,
+                    siren: foundDebiteur.id,
+                    nomContact: foundDebiteur.name,
+                    adresse: foundDebiteur.adresse,
+                    codePostal: foundDebiteur.codePostal,
+                    ville: foundDebiteur.ville,
+                    telephone: foundDebiteur.telephone,
+                    email: foundDebiteur.email,
+                    type: foundDebiteur.type
+                });
             }
         }
     }, [debiteurFromUrl, debiteurs]);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
     const handleSave = () => {
         if (selectedDebiteur) {
-            const updatedDebiteurs = debiteurs.map((deb) => {
-                if (deb.id === selectedDebiteur.id) {
-                    return {
-                        ...deb,
-                        name: raisonSociale,
-                        id: siren,
-                    };
-                }
-                return deb;
-            });
+            const updatedDebiteurs = debiteurs.map((deb) =>
+                deb.id === selectedDebiteur.id ? { ...deb, ...formData } : deb
+            );
             setDebiteurs(updatedDebiteurs);
-            console.log("Debiteur modifié :", updatedDebiteurs);
+            console.log('Debiteur modifié :', updatedDebiteurs);
             router.push('/debiteurs');
         }
     };
@@ -146,7 +147,7 @@ export default function ModiDebiteur() {
     }
 
     return (
-        <AddDebiteurLayout>
+        <MyLayout>
             <div className='page_container_navbar'>
                 <div className='title_params_container'>
                     <div className='title_params_text'>Modification débiteur</div>
@@ -154,102 +155,43 @@ export default function ModiDebiteur() {
 
                 <div className='debiteur_tab_container'>
                     <div className='preventif_text_container'>
-                        Attention ! Les champs marqué d'un '*' ne seront pas modifiables dans l'avenir.
+                        Attention ! Les champs marqués d'un '*' ne seront pas modifiables dans l'avenir.
                     </div>
 
+                    {/* Champs du formulaire */}
                     <div className='input_case_container'>
                         <div className='input_title_container'>*Type :</div>
-                        <input
-                            readOnly
-                            className='input_field'
-                            value={type}
-                            style={{ backgroundColor: '#d2d5d7' }}
-                            disabled
-                        />
+                        <input readOnly className='input_field' value={formData.type} disabled style={{ backgroundColor: '#d2d5d7' }} />
                     </div>
 
-                    {selectedDebiteur?.type === 'Entreprise' && (
+                    {formData.type === 'Entreprise' && (
                         <>
                             <div className='input_case_container'>
                                 <div className='input_title_container'>Raison Sociale</div>
-                                <input
-                                    className='input_field'
-                                    value={raisonSociale}
-                                    onChange={(e) => setRaisonSociale(e.target.value)}
-                                />
+                                <input className='input_field' name="raisonSociale" value={formData.raisonSociale} onChange={handleInputChange} />
                             </div>
 
                             <div className='input_case_container'>
                                 <div className='input_title_container'>*SIREN</div>
-                                <input
-                                    className='input_field'
-                                    value={siren}
-                                    style={{ backgroundColor: '#d2d5d7' }}
-                                    disabled
-                                />
+                                <input className='input_field' value={formData.siren} disabled style={{ backgroundColor: '#d2d5d7' }} />
                             </div>
                         </>
                     )}
 
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Nom du contact</div>
-                        <input
-                            className='input_field'
-                            value={nomContact}
-                            onChange={(e) => setNomContact(e.target.value)}
-                        />
-                    </div>
-
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Adresse</div>
-                        <input
-                            className='input_field'
-                            value={adresse}
-                            onChange={(e) => setAdresse(e.target.value)}
-                        />
-                    </div>
-
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Code Postal</div>
-                        <input
-                            className='input_field'
-                            value={codePostal}
-                            onChange={(e) => setCodePostal(e.target.value)}
-                        />
-                    </div>
-
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Ville</div>
-                        <input
-                            className='input_field'
-                            value={ville}
-                            onChange={(e) => setVille(e.target.value)}
-                        />
-                    </div>
-
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Téléphone</div>
-                        <input
-                            className='input_field'
-                            value={telephone}
-                            onChange={(e) => setTelephone(e.target.value)}
-                        />
-                    </div>
-
-                    <div className='input_case_container'>
-                        <div className='input_title_container'>Email</div>
-                        <input
-                            className='input_field'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
+                    {['nomContact', 'adresse', 'codePostal', 'ville', 'telephone', 'email'].map((field) => (
+                        <div className='input_case_container' key={field}>
+                            <div className='input_title_container'>
+                                {field.charAt(0).toUpperCase() + field.slice(1)}
+                            </div>
+                            <input className='input_field' name={field} value={formData[field]} onChange={handleInputChange} />
+                        </div>
+                    ))}
 
                     <div className='bouton_save_container'>
                         <div className='button_save' onClick={handleSave}>SAUVEGARDER</div>
                     </div>
                 </div>
             </div>
-        </AddDebiteurLayout>
+        </MyLayout>
     );
 }

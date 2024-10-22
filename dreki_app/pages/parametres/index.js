@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import ParametreLayout from './layout';
-import '../css/navbar.css';
+import MyLayout from '../Layout/layout';
+import '../css/sharefeatures.css';
 import '../css/params.css';
 
 export default function Parametre() {
@@ -33,7 +33,7 @@ export default function Parametre() {
     };
 
     return (
-        <ParametreLayout>
+        <MyLayout>
             <div className='page_container_navbar'>
                 <div className='title_params_container'>
                     <div className='title_params_text'>Mes informations</div>
@@ -121,6 +121,6 @@ export default function Parametre() {
                     )}
                 </div>
             </div>
-        </ParametreLayout>
+        </MyLayout>
     );
 }

@@ -29,22 +29,7 @@
 }
 
 
-.title_params_text {
-    margin: 4px;
-    font-size: 32px;
-    color: #012087;
-    display: flex;
-}
 
-.title_params_container {
-    display: flex;
-    /* justify-content: center; */
-    align-items: center;
-    height: 10%;
-    width: 95%;
-    align-self: center;
-
-}
 
 .navbar_test {
     /* margin-top: 55%; */

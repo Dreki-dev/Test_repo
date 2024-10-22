@@ -41,6 +41,8 @@
     white-space: nowrap;
 
 }
+.button_default.active,
+.button_doc.active,
 .button_mdp:active,
 .button_default:active,
 .button_save:active,
@@ -49,11 +51,7 @@
     background-color: #012087;
     color: white;
 }
-.button_default.active,
-.button_doc.active {
-    background-color: #012087;
-    color: white;
-}
+
 
 .button_default {
     display: flex;

@@ -125,7 +125,7 @@ export default function Connexion() {
       )}
 
       {showModalInscription && (
-        <ModalInscription
+        <ModalInscr iption
          showModalInscription={showModalInscription}
           animationClass={animationClass}
           toggleModalInscription={toggleModalInscription}

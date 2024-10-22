@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import ObjetLayout from './layout'
+import MyLayout from '../Layout/layout';
+
 import '../css/objet.css'
 import '../css/navbar.css'
 import '../css/sharefeatures.css'
@@ -7,10 +8,14 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ObjetDetail() {
+    {/* Imports */} 
     const router = useRouter();
+
+    {/* Constantes et données initiales */} 
     const { id } = router.query;
     const [factureData, setFactureData] = useState(null);
-
+    
+    {/* État initial */ }
     const [factures, setFactures] = useState([
         {
             id: '1',
@@ -64,6 +69,7 @@ export default function ObjetDetail() {
         },
     ]);
 
+    {/*Récupère une facture correspondant à l'ID donné et met à jour l'état, ou affiche un message de chargement si non disponible.*/ }
 
     useEffect(() => {
         if (id) {
@@ -75,6 +81,7 @@ export default function ObjetDetail() {
     if (!factureData) {
         return <p>Chargement...</p>;
     }
+    {/*  Gere l'affichage des case avec les notes */ }
 
     const NoteCase = ({ name, dateEmission, heure, text }) => {
         const [isExpanded, setIsExpanded] = useState(false);
@@ -109,7 +116,7 @@ export default function ObjetDetail() {
     };
 
     return (
-        <ObjetLayout>
+        <MyLayout>
             <div className='page_container_navbar'>
                 <div className='return_arrow'>
                     <Link className='arrow_container' href='/factures'>
@@ -145,6 +152,8 @@ export default function ObjetDetail() {
                 </div>
 
                 <div className='facture_obj_container'>
+                    {/* Affichage des notes, a modifier avec map quand back */}
+
                     <NoteCase
                         name={factureData.name}
                         dateEmission={factureData.dateEmission}
@@ -189,7 +198,7 @@ export default function ObjetDetail() {
                     />
                 </div>
             </div>
-        </ObjetLayout>
+        </MyLayout>
     );
 }
 

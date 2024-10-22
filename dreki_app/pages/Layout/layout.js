@@ -3,13 +3,15 @@
 import { usePathname } from 'next/navigation';
 import Navbar from '../components/Navbar';
 
-export default function FacturesLayout({ children }) {
+export default function MyLayout({ children }) {
   const pathname = usePathname();
  
-  if (!pathname.includes("/parametres")) {
+  const paths = ["/objet", "/parametres", "/mod_debiteurs", "/factures", "/add_factures", "/debiteurs", "/dashboard"];
+
+  if (!paths.some(path => pathname.includes(path))) {
     return null;
   }
-
+  
   return (
     <div>
       <Navbar/>

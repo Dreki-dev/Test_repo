@@ -1,22 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import DebiteurLayout from './layout';
-import '../css/navbar.css'
+import MyLayout from '../Layout/layout'
+import '../css/sharefeatures.css'
 import '../css/debiteurs.css'
-
+import ModalSelectedDebiteur from './ModalSelectedDebiteur';
+import ModalMenuDeroulant2 from './ModalMenuDeroulant2';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 export default function Debiteur() {
-    const handleBlur = () => {
-        setTimeout(() => {
-            setEditingDeroulantMenu(false);
-        }, 100);
-    };
-    const [textDeroulantMenu, setTextDeroulantMenu] = useState('Entreprise');
-    const [isEditingDeroulantMenu, setEditingDeroulantMenu] = useState(false);
     const router = useRouter();
-
+    
+    {/* Fonction pour gérer l'apparition du menu déroulant */ }
     const handleSelectChoiceDeroulantMenu = (choice) => {
         setTextDeroulantMenu(choice);
         setEditingDeroulantMenu(false);
@@ -27,41 +22,37 @@ export default function Debiteur() {
         }
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [text, setText] = useState("")
-    const [editing, setEditing] = useState(false);
-
-    const [activeSection, setActiveSection] = useState('');
     const [docButtonClicked, setDebButtonClicked] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
 
     const [pro_part, setPro_part] = useState(true);
-    const [selectedDebiteur, setSelectedDebiteur] = useState(null);
-
-    const handleClick = (debiteur) => {
-        setSelectedDebiteur(debiteur);
-        setIsModalOpen(true);
-    };
-
-    const handleClickDeroulant = (e) => {
-        const rect = e.target.getBoundingClientRect();
-
-        setDropdownPosition({
-            top: rect.bottom + window.scrollY,
-            left: rect.left + window.scrollX
-        });
-
-        setEditingDeroulantMenu(true);
-    };
-
 
     const closeModal = () => {
         setIsModalOpen(false);
     };
+    
+    {/* Fonction pour gérer la perte de focus sur le menu déroulant et fermer le menu après un délai */ }
+    const handleBlur = () => {
+        setTimeout(() => {
+            setEditingDeroulantMenu(false);
+        }, 100);
+    };
 
+    {/* États pour gérer le texte du menu déroulant, l'édition et l'ouverture de la modal */ }
+    const [textDeroulantMenu, setTextDeroulantMenu] = useState('Entreprise');
+    const [isEditingDeroulantMenu, setEditingDeroulantMenu] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [text, setText] = useState("");
+    const [editing, setEditing] = useState(false);
+
+    {/* États pour suivre la section active, le débiteur sélectionné, et les états de tri */ }
+    const [activeSection, setActiveSection] = useState('');
+    const [selectedDebiteur, setSelectedDebiteur] = useState(null);
     const [sortAscName, setSortAscName] = useState(true);
     const [sortAscStat, setSortAscStat] = useState(true);
     const [sortAscDue, setSortAscDue] = useState(true);
+
+    {/* État pour stocker les débiteurs et leurs données initiales */ }
     const [debiteurs, setDebiteurs] = useState([
         { name: 'Theo Dupont', id: '1', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '544788' },
         { name: 'Jean Martin', id: '2', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '1444' },
@@ -70,49 +61,47 @@ export default function Debiteur() {
         { name: 'Lucas Girard', id: '5', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '753' },
     ]);
 
-    const handleSortDue = () => {
-        const sortedDebiteurs = [...debiteurs].sort((a, b) => {
-            if (sortAscDue) {
-                return a.due - b.due;
-            } else {
-                return b.due - a.due;
-            }
-        });
+    {/* Fonction pour gérer les clics sur un débiteur et ouvrir la modal */ }
+    const handleClick = (debiteur) => {
+        setSelectedDebiteur(debiteur);
+        setIsModalOpen(true);
+    };
 
+    {/* Fonction pour gérer l'ouverture du menu déroulant en calculant sa position */ }
+    const handleClickDeroulant = (e) => {
+        const rect = e.target.getBoundingClientRect();
+        setDropdownPosition({
+            top: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX
+        });
+        setEditingDeroulantMenu(true);
+    };
+
+    {/* Fonctions de tri pour les débiteurs par nom, statut de paiement et date d'échéance */ }
+    const handleSortDue = () => {
+        const sortedDebiteurs = [...debiteurs].sort((a, b) => sortAscDue ? a.due - b.due : b.due - a.due);
         setDebiteurs(sortedDebiteurs);
         setSortAscDue(!sortAscDue);
     };
 
     const handleSortName = () => {
-        const sortedDebiteurs = [...debiteurs].sort((a, b) => {
-            if (sortAscName) {
-                return a.name.localeCompare(b.name);
-            } else {
-                return b.name.localeCompare(a.name);
-            }
-        });
-
+        const sortedDebiteurs = [...debiteurs].sort((a, b) => sortAscName ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
         setDebiteurs(sortedDebiteurs);
         setSortAscName(!sortAscName);
     };
 
     const handleSortStatus = () => {
-        const sortedDebiteurs = [...debiteurs].sort((a, b) => {
-            if (sortAscStat) {
-                return a.textPaie.localeCompare(b.textPaie);
-            } else {
-                return b.textPaie.localeCompare(a.textPaie);
-            }
-        });
-
+        const sortedDebiteurs = [...debiteurs].sort((a, b) => sortAscStat ? a.textPaie.localeCompare(b.textPaie) : b.textPaie.localeCompare(a.textPaie));
         setDebiteurs(sortedDebiteurs);
         setSortAscStat(!sortAscStat);
     };
 
+    {/* Composant pour afficher les informations d'un débiteur */ }
     const DebiteurCase = ({ name, backColor, textColor, textPaie, handleClick, due }) => {
         const handleButtonClick = () => {
             handleClick();
         };
+
         return (
             <div className='input_case_container_deb' onClick={handleButtonClick} >
                 <div className='case_name_menu'>{name}</div>
@@ -128,29 +117,29 @@ export default function Debiteur() {
         );
     };
 
+    {/* État pour stocker le terme de recherche pour filtrer les débiteurs */ }
     const [searchTerm, setSearchTerm] = useState('');
-
-
     const [debiteur, setDebiteur] = useState(null);
+
+    {/* Mise à jour du débiteur sélectionné à partir de l'URL */ }
     useEffect(() => {
         const { debiteur: debiteurFromUrl } = router.query;
         setDebiteur(debiteurFromUrl || null);
     }, [router.query]);
 
+    {/* Filtre les débiteurs en fonction du terme de recherche et du débiteur sélectionné */ }
     const filteredDebiteur = debiteurs.filter(fact => {
         const searchTermLower = searchTerm.toLowerCase();
-
         const nameMatches = fact.name.toLowerCase().includes(searchTermLower);
-
         const dueMatches = fact.due.includes(searchTerm);
         const stateMatches = fact.textPaie.includes(searchTerm);
-
         const debiteurMatches = debiteur ? fact.name === debiteur : true;
 
         return (nameMatches || dueMatches || stateMatches) && debiteurMatches;
     });
+
     return (
-        <DebiteurLayout>
+        <MyLayout>
             <div className='page_container_navbar'>
                 <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div className='title_params_text'>Débiteurs</div>
@@ -161,7 +150,7 @@ export default function Debiteur() {
                             setDebiteur(null);
                         }}
                     >
-                        Réinitialisez le filtre
+                        voir tous les débiteurs
                     </div>
                 </div>
                 <div className='button_container_deb'>
@@ -180,7 +169,7 @@ export default function Debiteur() {
                             Afficher votre liste<br />de débiteurs
                         </div>
                     )}
-                    <input className='search_input_deb' placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    <input className='search_input' style={{backgroundColor:'white'}} placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
                 </div>
 
@@ -286,71 +275,19 @@ export default function Debiteur() {
                     </div>
                 )}
                 {isEditingDeroulantMenu && (
-                    <div>
-                        <div className='dropdown_menu' style={{
-                            border: '1px solid #ccc',
-                            padding: '10px',
-                            backgroundColor: 'white',
-                            position: 'absolute',
-                            zIndex: 1000,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            width: '50%',
-                            top: dropdownPosition.top,
-                            left: dropdownPosition.left,
-                        }}>
-                            <div onClick={() => handleSelectChoiceDeroulantMenu('Entreprise')} style={{ padding: '5px', cursor: 'pointer' }}>Entreprise</div>
-                            <div onClick={() => handleSelectChoiceDeroulantMenu('Particulier')} style={{ padding: '5px', cursor: 'pointer' }}>Particulier</div>
-                        </div>
-                    </div>
+                    <ModalMenuDeroulant2
+                        dropdownPosition={dropdownPosition}
+                        handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
+                    />
                 )}
                 {isModalOpen && selectedDebiteur && (
-                    <div className='modal_back' onClick={closeModal}>
-                        <div
-                            onClick={(e) => e.stopPropagation()}
-                            className='modal_content'
-                            style={{
-                                border: '2px solid #01208752'
-                            }}>
-                            <div className='Title_modal_debiteur'>
-                                Information du débiteur
-                            </div>
-                            <div className='Subtitle_modal_debiteur'>
-                                <div style={{ width: '120px' }}>
-                                    Nom :
-                                </div>
-                                <div className='Subtitle_modal_debiteur_information'>{selectedDebiteur.name}</div>
-                            </div>
-                            <div className='Subtitle_modal_debiteur'>
-                                <div style={{ width: '120px' }}>
-                                    Téléphone :
-                                </div>
-                                <div className='Subtitle_modal_debiteur_information'>0781582512</div>
-                            </div>
-                            <div className='Subtitle_modal_debiteur'>
-                                <div style={{ width: '120px' }}>
-                                    Montant due :
-                                </div>
-                                <div className='Subtitle_modal_debiteur_information'>{selectedDebiteur.due} $</div>
-                            </div>
-                            <div className='Title_modal_debiteur'>
-                                Action
-                            </div>
-                            <Link
-                                href={{ pathname: '/factures', query: { debiteur: selectedDebiteur.name } }}
-                                className='Link_modif_modal_debiteur'>
-                                Voir les Factures
-                            </Link>
-                            <Link
-                                href={{ pathname: '/mod_debiteurs', query: { debiteur: selectedDebiteur.name } }}
-                                className='Link_modif_modal_debiteur'>
-                                modifier le débiteur
-                            </Link>
-                        </div>
-                    </div>
+                   <ModalSelectedDebiteur
+                        closeModal={closeModal}
+                        selectedDebiteur={selectedDebiteur}
+                   />
                 )}
             </div>
-        </DebiteurLayout >
+        </MyLayout >
 
     );
 }
