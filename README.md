@@ -1,5 +1,5 @@
-Test_repo : Première Application mobile pour Dreki
-Introduction
+# Test_repo : Première Application mobile pour Dreki
+## Introduction
 
 Bienvenue dans le projet Dreki, la première application mobile pour Dreki. Ce guide vous aidera à lancer l'application en local et à gérer les mises à jour sur le serveur AWS. Veuillez suivre les instructions ci-dessous.
 
