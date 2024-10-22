@@ -69,6 +69,6 @@ Mettre à jour le serveur AWS
 En cas de dysfonctionnement :
 Supprimez l'ancienne instance de l'application :
 
-        pm2 delete dreki_app
+    pm2 delete dreki_app
 
 Relancez l'application en utilisant la commande ci-dessus.
