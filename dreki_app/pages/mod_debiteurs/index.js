@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AddDebiteurLayout from './layout';
+import '../css/debiteurs.css'
 
 export default function ModiDebiteur() {
     const router = useRouter();
