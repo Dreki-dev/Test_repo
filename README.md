@@ -17,8 +17,6 @@ Lancer l'application en local
   
   Synchroniser Capacitor :
 
-    bash
-
     npx cap sync
 
 Lancer l'application sur un émulateur Android (si Android Studio est installé) :
@@ -38,19 +36,13 @@ Mettre à jour le serveur AWS
 
   Naviguer dans le répertoire de l'application :
 
-    bash
-
     cd Dreki_app
 
   Récupérer les dernières modifications depuis Git :
 
-    bash
-
     git pull
 
   Installer les dépendances mises à jour :
-
-    bash
 
     npm i
 
@@ -58,13 +50,9 @@ Mettre à jour le serveur AWS
 
     Attention : il est crucial de build le projet directement sur le serveur SSH pour que les mises à jour soient en production.
 
-    bash
-
     npm run build
 
   Vérifier l'état des processus via PM2 :
-
-    bash
 
     pm2 status
 
@@ -72,22 +60,15 @@ Mettre à jour le serveur AWS
 
     Si l'application n'est pas encore en cours d'exécution, utilisez cette commande pour démarrer :
 
-    bash
-
     pm2 start 'dreki_app'
 
   Sinon, vous pouvez utiliser la commande suivante :
 
-    bash
-
     pm2 start npx --name "dreki_app" -- serve@latest out
 
 En cas de dysfonctionnement :
+Supprimez l'ancienne instance de l'application :
 
-    Supprimez l'ancienne instance de l'application :
-
-    bash
-
-    pm2 delete dreki_app
+        pm2 delete dreki_app
 
 Relancez l'application en utilisant la commande ci-dessus.
