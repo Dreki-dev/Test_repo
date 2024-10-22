@@ -1,16 +1,22 @@
 {
-  "name": "dreki_app",
+  "name": "my_app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "npx serve@latest out",
+    "lint": "next lint",
+    "static": "next build"
   },
   "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "next": "14.2.13",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.13"
+    "react-datepicker": "^7.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
   }
 }
