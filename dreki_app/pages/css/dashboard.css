@@ -38,6 +38,10 @@
     color: inherit;
     padding: 4px;
     border-radius: 11px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .button_acton_voirplus:active {

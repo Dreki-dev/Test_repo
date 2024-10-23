@@ -182,7 +182,7 @@ export default function Debiteur() {
                             <div className='case_status_menu' onClick={handleSortStatus}>
                                 Status {sortAscStat ? '▲' : '▼'}
                             </div>
-                            <div className='case_action_menu' onClick={handleSortDue}>
+                            <div className='case_action_menu' onClick={handleSortDue} style={{whiteSpace: 'nowrap'}}>
                                 Montant due {sortAscDue ? '▲' : '▼'}
                             </div>
                         </div>

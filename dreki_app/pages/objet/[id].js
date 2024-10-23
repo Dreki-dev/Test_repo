@@ -25,6 +25,7 @@ export default function ObjetDetail() {
             name: 'Theo Dupont',
             dateEmission: '12/05/2020',
             dateEcheance: '23/08/2025',
+            heure: '8h35',
             derniereNote: 'Première facture: Rappel pour paiement partiel.',
         },
         {
@@ -35,6 +36,7 @@ export default function ObjetDetail() {
             name: 'Jean Martin',
             dateEmission: '15/07/2021',
             dateEcheance: '01/10/2025',
+            heure: '8h35',
             derniereNote: 'Deuxième facture: Solde restant après premier versement.',
         },
         {
@@ -45,6 +47,7 @@ export default function ObjetDetail() {
             name: 'Marie Lefevre',
             dateEmission: '10/02/2022',
             dateEcheance: '30/12/2025',
+            heure: '8h35',
             derniereNote: 'Troisième facture: Paiement à prévoir avant échéance.',
         },
         {
@@ -55,6 +58,7 @@ export default function ObjetDetail() {
             name: 'Emma Moreau',
             dateEmission: '01/04/2023',
             dateEcheance: '15/09/2025',
+            heure: '8h35',
             derniereNote: 'Facture impayée : Aucune action prise à ce jour.',
         },
         {
@@ -65,6 +69,7 @@ export default function ObjetDetail() {
             name: 'Lucas Girard',
             dateEmission: '12/05/2023',
             dateEcheance: '23/06/2025',
+            heure: '8h35',
             derniereNote: 'Paiement complet : Facture réglée.',
         },
     ]);

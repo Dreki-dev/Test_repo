@@ -70,7 +70,7 @@ export default function Dashboard() {
     const FactureCase = ({ name, backColor, dragon, euro, id }) => {
         console.log(dragon)
         return (
-            <div className='input_case_container_fac'>
+            <Link className='input_case_container_fac' href={`/factures?id=${id}`}>
                 <div className='name_container_tab_fac'>
                     {name}
                 </div>
@@ -81,16 +81,16 @@ export default function Dashboard() {
                     <img src={dragon.src} alt="dragon image" className='dragon_logo' />
                 </div>
                 <div className='action_container_tab_fac'>
-                    <Link className='button_acton_voirplus no-select' href={`/factures?id=${id}`}>voir plus</Link>
+                    <div className='button_acton_voirplus no-select' href={`/factures?id=${id}`}>voir plus</div>
                 </div>
-            </div>
+            </Link>
         );
     };
 
     const NoteCase = ({ name, dragon, numero, id }) => {
         console.log(dragon)
         return (
-            <div className='input_case_container_fac' style={{ justifyContent: 'space-around' }}>
+            <Link href={`/objet/${id}`} className='input_case_container_fac no-select' style={{ justifyContent: 'space-around' }}>
                 <div className='name_container_tab_fac'>
                     {name}
                 </div>
@@ -98,9 +98,9 @@ export default function Dashboard() {
                     {numero}
                 </div>
                 <div className='action_container_tab_fac'>
-                    <Link className='button_acton_voirplus no-select' href={`/objet/${id}`} >voir note</Link>
+                    <div className='button_acton_voirplus no-select' >voir note</div>
                 </div>
-            </div>
+            </Link>
         );
     };
     

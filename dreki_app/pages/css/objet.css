@@ -21,7 +21,7 @@
 .notecase_container {
     width: 95%;
     height: 45%;
-    min-height: 15%;
+    min-height: 25%;
     max-height: auto;
     background-color: #F6F9FC;
     display: flex;

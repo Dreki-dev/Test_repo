@@ -6,8 +6,8 @@
     color: #2E3E51;
     border: 1px solid #696c6fa4;
     background-color: rgba(255, 0, 0, 0.049);
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 6px;
+    padding-right: 6px;
     height: 35px;
     border-radius: 6px;
     width: 145px;
@@ -40,6 +40,8 @@
     justify-content: center;
     align-items: center;
     border-radius: 12px;
+    font-size: 100%;
+    text-align: center;
 }
 
 .facture_tab_container {
@@ -146,6 +148,8 @@
     flex-shrink: 0;
     border-bottom: 1px solid #01208723;
     border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
 }
 
 .input_case_container_fac:active {
@@ -334,11 +338,12 @@
     align-items: center;
     color: #2E3E51;
     border: 1px solid #696c6fa4;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
     height: 35px;
     border-radius: 6px;
-    width: 30%;
+    width: 30%; 
+    white-space:nowrap ;
 }
 
 .button_modal_facture_edit {
@@ -348,8 +353,8 @@
     align-items: center;
     color: #2E3E51;
     border: 1px solid #696c6fa4;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
     height: 35px;
     border-radius: 6px;
     width: 30%;
@@ -611,7 +616,7 @@
     display: flex;
     /* justify-content: center; */
     align-items: center;
-    width: 65%;
+    width: 75%;
     gap: 12px;
 }
 

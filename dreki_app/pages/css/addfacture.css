@@ -30,13 +30,6 @@
 
 }
 
-.bouton_save_container {
-    display: flex;
-    width: 85%;
-    justify-self: center;
-    justify-content: flex-end;
-}
-
 .placeholder_file_container {
     height: 35px;
     background-color: #0120870c;

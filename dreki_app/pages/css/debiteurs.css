@@ -5,11 +5,11 @@
     align-items: center;
     color: #2E3E51;
     border: 1px solid #2E3E51;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 12px;
+    padding-right: 12px;
     height: 45px;
     border-radius: 6px;
-    width: 145px;
+    width: 40%;
 }
 
 .button_container_deb {
@@ -141,6 +141,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     border-radius: 12px;
 }
 
@@ -173,13 +174,6 @@
     gap: 24px;
 }
 
-.bouton_save_container {
-    margin: 18px;
-    display: flex;
-    width: 85%;
-    justify-self: center;
-    justify-content: space-between;
-}
 
 .input_case_container_file {
     width: 85%;

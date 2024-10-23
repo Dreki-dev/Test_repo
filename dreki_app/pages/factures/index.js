@@ -90,7 +90,7 @@ export default function Facture() {
     ]);
 
     {/* Affichage des cases des factures avec gestion du modal */ }
-    
+
     const FactureCase = ({ name, backColor, dragon, euro, id, total, aRecuperer, dateEcheance, dateEmission }) => {
         return (
             <div className='input_case_container_fac' onClick={() => openModalWithFacture(id)} >
@@ -125,8 +125,6 @@ export default function Facture() {
     };
 
     {/* Gère le tri et la navigation avec le routeur */ }
-    const [sortAscName, setSortAscName] = useState(true);
-    const [sortAscStat, setSortAscStat] = useState(true);
     const router = useRouter();
     const { id } = router.query;
     const [selectedFacture, setSelectedFacture] = useState(null);
@@ -154,17 +152,50 @@ export default function Facture() {
     };
 
     {/* Gère le tri des factures par nom et statut */ }
+    const [sortAscName, setSortAscName] = useState(true);
+    const [sortAscEuro, setSortAscEuro] = useState(true);
+    const [sortAscTotal, setSortAscTotal] = useState(true);
+    const [sortAscDragon, setSortAscDragon] = useState(true);
+
     const handleSortName = () => {
-        const sortedFactures = [...facturesAvecDragon].sort((a, b) => sortAscName ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+        const sortedFactures = [...filteredFactures].sort((a, b) =>
+            sortAscName ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+        );
         setFacturesAvecDragon(sortedFactures);
         setSortAscName(!sortAscName);
     };
 
-    const handleSortStatus = () => {
-        const sortedFactures = [...facturesAvecDragon].sort((a, b) => sortAscStat ? a.euro.localeCompare(b.euro) : b.euro.localeCompare(a.euro));
+    const handleSortEuro = () => {
+        const sortedFactures = [...filteredFactures].sort((a, b) => {
+            const euroA = parseFloat(a.euro);
+            const euroB = parseFloat(b.euro);
+            return sortAscEuro ? euroA - euroB : euroB - euroA;
+        });
         setFacturesAvecDragon(sortedFactures);
-        setSortAscStat(!sortAscStat);
+        setSortAscEuro(!sortAscEuro);
     };
+
+    const handleSortTotal = () => {
+        const sortedFactures = [...filteredFactures].sort((a, b) =>
+            sortAscTotal ? a.total - b.total : b.total - a.total
+        );
+        setFacturesAvecDragon(sortedFactures);
+        setSortAscTotal(!sortAscTotal);
+    };
+
+    const handleSortDragon = () => {
+        const sortedFactures = [...filteredFactures].sort((a, b) => {
+            const dragonKeyA = Object.keys(dragons).find(key => dragons[key] === a.dragon);
+            const dragonKeyB = Object.keys(dragons).find(key => dragons[key] === b.dragon);
+    
+            return sortAscDragon 
+                ? dragonKeyA.localeCompare(dragonKeyB) 
+                : dragonKeyB.localeCompare(dragonKeyA);
+        });
+        setFacturesAvecDragon(sortedFactures);
+        setSortAscDragon(!sortAscDragon);
+    };
+    
 
     {/* Modal pour afficher les détails d'une facture */ }
     const openModalWithFacture = (factureId) => {
@@ -232,7 +263,10 @@ export default function Facture() {
 
     const filteredFactures = facturesAvecDragon.filter(fact => {
         const searchTermLower = searchTerm.toLowerCase();
-        return (fact.name.toLowerCase().includes(searchTermLower) || fact.euro.includes(searchTerm) || fact.id.includes(searchTerm)) && (!debiteur || fact.name === debiteur);
+        return (
+            (fact.name.toLowerCase().includes(searchTermLower) || fact.euro.includes(searchTerm) || fact.id.includes(searchTerm)) &&
+            (!debiteur || fact.name === debiteur)
+        );
     });
 
     {/* Recalcule la position du menu déroulant lors d'un redimensionnement */ }
@@ -276,18 +310,19 @@ export default function Facture() {
                 </div>
                 <div className='facture_tab_container'>
                     <div className='fixed_case_container_tab_fac'>
-                        <div className='name_container_tab_fac'>
-                            name
+                        <div className='name_container_tab_fac' onClick={handleSortName}>
+                            name {sortAscName ? '▲' : '▼'}
                         </div>
-                        <div className='euro_container_tab_fac' style={{ justifyContent: 'center' }}>
-                            $ à venir
+                        <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                            $ à venir {sortAscEuro ? '▲' : '▼'}
                         </div>
-                        <div className='montant_container_tab_fac'>
-                            montant
+                        <div className='montant_container_tab_fac' onClick={handleSortTotal}>
+                            montant {sortAscTotal ? '▲' : '▼'}
                         </div>
-                        <div className='status_container_tab_fac'>
-                            status
+                        <div className='status_container_tab_fac' onClick={handleSortDragon}>
+                            status {sortAscDragon ? '▲' : '▼'}
                         </div>
+
                     </div>
                     <div className='container_scroll_fac'>
                         {filteredFactures.map((factures, index) => (

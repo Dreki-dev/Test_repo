@@ -115,7 +115,7 @@ export default function Parametre() {
                                 }}>
                                     Modifier MDP
                                 </div>
-                                <div className='button_save'>SAVE</div>
+                                <div className='button_save'>SAUVEGARDER</div>
                             </div>
                         </>
                     )}

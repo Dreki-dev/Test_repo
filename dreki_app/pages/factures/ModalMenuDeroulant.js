@@ -7,6 +7,7 @@ export default function ModalMenuDeroulant({
     left,
     top,
 }) {
+    const test = ['Entreprise', 'Particulier', 'Association', 'test', 'theo', 'lucas', 'end']
     console.log(filteredChoices)
     return (    
         <div style={{ width: '55%' }}>
@@ -24,7 +25,7 @@ export default function ModalMenuDeroulant({
             height: '15%',
             overflowY: 'scroll',
         }}>
-            {filteredChoices.map((choice, index) => (
+             {(filteredChoices || []).map((choice, index) => (
                 <div
                     key={index}
                     onClick={() => handleSelectChoiceDeroulantMenu(choice)}
