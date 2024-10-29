@@ -86,3 +86,31 @@
     min-height: 15%;
     width: 100%;
 }
+
+.button_add_note {
+    height: 100%;
+    /* background-color: #012087; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 12px;
+    padding: 0px 12px 0px 12px;
+    flex-direction: column;
+    width: auto;
+    font-size: 14px;
+    color: #2E3E51;
+    border: 1px solid #2E3E51;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.button_add_note:active {
+    background-color: #012087;
+    color: white;
+}
+
+.input_cotainer_note {
+    margin-top: 5%;
+    height: 55%;
+    width: 95%;
+}

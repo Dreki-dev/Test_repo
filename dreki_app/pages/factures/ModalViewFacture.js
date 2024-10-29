@@ -84,12 +84,13 @@ export default function ModalViewFacture({
                     </div>
                 </div>
                 <div className='button_line_modal_facture'>
-                    <div className='button_modal_facture_note'>
+                    <Link className='button_modal_facture_note' href={{ pathname: `/objet/${id}`, query: { showModal: true } }}
+                    >
                         Ajouter note
-                    </div>
-                    <div className='button_modal_facture_edit'>
+                    </Link>
+                    <Link className='button_modal_facture_edit' href={`/mod_factures?id=${id}`}>
                         Modifier
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>

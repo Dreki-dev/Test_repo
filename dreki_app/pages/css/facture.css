@@ -344,6 +344,7 @@
     border-radius: 6px;
     width: 30%; 
     white-space:nowrap ;
+    text-decoration: none;
 }
 
 .button_modal_facture_edit {
@@ -639,7 +640,7 @@
     color: #212529;
     margin-bottom: 12px;
     border-radius: 0.25rem;
-    background-color: #F6F9FC;
+    font-size: 18px;
 }
 
 .input_field:focus {
@@ -648,9 +649,9 @@
 }
 
 .input_case_container_modal_deb {
-    width: 100%;
+    width: 95%;
     height: 35%;
-    justify-content: center;
+    justify-content: center;    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -659,10 +660,10 @@
 
 .bouton_save_container_fac {
     display: flex;
-    width: 95%;
+    width: 90%;
     justify-self: center;
     justify-content: space-between;
-    bottom: 2%;
+    bottom: 4%;
     position: absolute;
     margin-left: 12px;
     margin-right: 12px;

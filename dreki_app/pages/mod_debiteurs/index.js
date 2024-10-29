@@ -19,7 +19,7 @@ export default function ModiDebiteur() {
             raisonSociale: 'Bijoutier',
             siren: '362 521 879 00034',
             adresse: '56 rue de Lavaud',
-            codePostal: '33000',
+            codePostal: '33000',    
             ville: 'Bordeaux',
             telephone: '07 81 58 25 12',
             email: 'theo.dupont@gmail.com',

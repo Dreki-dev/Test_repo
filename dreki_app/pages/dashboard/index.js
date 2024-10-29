@@ -5,6 +5,7 @@ import Link from 'next/link';
 import '../css/navbar.css'
 import '../css/dashboard.css'
 import '../css/facture.css'
+import '../css/sharefeatures.css'
 
 import blue_dragon from '../../public/images/logo_mini_dreki_blue.png'
 import white_dragon from '../../public/images/logo_mini_dreki_white.png'
