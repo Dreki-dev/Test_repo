@@ -20,7 +20,7 @@ export default function ModalDragon({
     };
 
     return (
-        <div className='modal_back_fac' onClick={closeDragonModal} style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
+        <div className='modal_back' onClick={closeDragonModal} style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
             <div
                 onClick={(e) => e.stopPropagation()}
                 className='modal_content_fac'

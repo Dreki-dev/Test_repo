@@ -23,8 +23,7 @@
 }
 
 .button_add_deb:active,
-.reset_filter_button:active,
-.button_save:active {
+.reset_filter_button:active {
     background-color: #012087;
     color: white;
 }
@@ -149,19 +148,7 @@
     background-color: #2e3e5126;
 }
 
-.modal_back {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    height: 95vh;
-    width: 100vw;
-    background-color: #0120871e;
-    left: 0;
-}
-
-.modal_content {
+.modal_content_deb {
     border-radius: 12px;
     width: 250px;
     z-index: 99;
@@ -172,66 +159,6 @@
     background-color: white;
     position: absolute;
     gap: 24px;
-}
-
-
-.input_case_container_file {
-    width: 85%;
-    height: 100px;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #2E3E51;
-}
-
-.input_case_container {
-    width: 85%;
-    height: 75px;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #2E3E51;
-}
-
-.input_title_container {
-    width: 100%;
-    color: #2E3E51;
-}
-
-.input_field {
-    border: 1px solid #535f6e7d;
-    outline: none;
-    width: 100%;
-    height: 32px;
-    color: #212529;
-    margin-bottom: 12px;
-    border-radius: 0.25rem;
-    background-color: #F6F9FC;
-}
-
-.input_field:focus {
-    box-shadow: 0 0 0 3px #437e9757;
-    border: 1px solid #535f6e;
-}
-
-
-.button_save {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 45px;
-    width: auto;
-    font-size: 14px;
-    color: #2E3E51;
-    border: 1px solid #2E3E51;
-    padding-left: 12px;
-    padding-right: 12px;
-    border-radius: 12px;
-    flex-shrink: 0;
-    white-space: nowrap;
 }
 
 .button_status {

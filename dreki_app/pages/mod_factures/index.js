@@ -130,7 +130,7 @@ export default function ModiFacture() {
                     <div className='container_scroll_doc'>
 
                         {/*Container pour l'importation de file */}
-                        <div className='input_case_container_file' style={{ marginTop: '24px', width: '100%' }}>
+                        <div className='input_case_container' style={{ marginTop: '24px', width: '100%' }}>
                             <div>
                                 <div className='input_title_container'>
                                     Factures - (<span style={{ textDecoration: 'underline' }}>Format : PDF</span>) :

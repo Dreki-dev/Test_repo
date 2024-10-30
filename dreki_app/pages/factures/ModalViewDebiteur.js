@@ -10,7 +10,7 @@ export default function ModalViewDebiteur({
     
 }) {
     return (
-        <div className='modal_back_fac' onClick={closeDebiteurModal} style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+        <div className='modal_back' onClick={closeDebiteurModal} style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <div
                 onClick={(e) => e.stopPropagation()}
                 className='modal_content_fac'

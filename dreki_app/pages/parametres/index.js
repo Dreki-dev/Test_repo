@@ -76,7 +76,7 @@ export default function Parametre() {
                     {activeSection === 'ajouterDoc' && (
                         <div className='container_scroll_doc'>
                             {sections.map((section, index) => (
-                                <div className='input_case_container_file' key={index} style={{ marginTop: '24px', width: '100%' }}>
+                                <div className='input_case_container' key={index} style={{ marginTop: '24px', width: '100%' }}>
                                     <div>
                                         <div className='input_title_container'>
                                             {section} - (<span style={{ textDecoration: 'underline' }}>Format : PDF</span>) :

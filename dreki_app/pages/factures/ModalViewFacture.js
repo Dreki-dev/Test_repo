@@ -13,7 +13,7 @@ export default function ModalViewFacture({
     total
 }) {
     return (
-        <div className='modal_back_fac' onClick={closeModal}>
+        <div className='modal_back' onClick={closeModal}>
             <div
                 onClick={(e) => e.stopPropagation()}
                 className='modal_content_fac'

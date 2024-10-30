@@ -268,9 +268,9 @@ export default function Debiteur() {
                             </div>
                             <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
                         </div>
-                        <div className='bouton_save_container'>
-                            <div className='button_save' >SAUVEGARDER <br />+ CREATION FACTURE</div>
-                            <div className='button_save'>SAUVEGARDER</div>
+                        <div className='bouton_save_container' style={{width: '90%'}}>
+                            <div className='button_save' style={{paddingLeft: '6px', paddingRight: '6px'}} >SAUVEGARDER <br />+ CREATION FACTURE</div>
+                            <div className='button_save' style={{paddingLeft: '6px', paddingRight: '6px'}}>SAUVEGARDER</div>
                         </div>
                     </div>
                 )}

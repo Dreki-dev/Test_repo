@@ -14,21 +14,6 @@
     overflow: hidden;
     overflow-y: scroll;
 }
-.input_case_container_file {
-    width: 85%;
-    height: 100px;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    color: #2E3E51;
-}
-
-.input_title_container {
-    width: 100%;
-    color: #2E3E51;
-
-}
 
 .placeholder_file_container {
     height: 35px;

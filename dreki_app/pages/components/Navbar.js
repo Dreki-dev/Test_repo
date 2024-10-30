@@ -1,5 +1,6 @@
 "use client";
 import "../css/navbar.css"
+import "../css/sharefeatures.css"
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 

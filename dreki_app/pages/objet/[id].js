@@ -232,7 +232,7 @@ export default function ObjetDetail() {
 
                 {isModalVisible && (
                     <div
-                        className='modal_back_fac'
+                        className='modal_back'
                         onClick={closeNoteModal}
                         style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                     >
@@ -255,7 +255,7 @@ export default function ObjetDetail() {
                                     Ajouter une note
                                 </div>
                             </div>
-                            <div className='input_cotainer_note'>
+                            <div className='input_container_note'>
                                 <textarea className='input_field' style={{height: '99%', width: '99%', justifyContent: 'none', resize: 'none', textAlign: 'none', boxSizing: 'border-box', verticalAlign: 'top',lineHeight: '1.2',overflowY: 'auto'}}/>
                             </div>
 

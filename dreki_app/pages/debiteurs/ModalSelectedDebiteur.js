@@ -11,7 +11,7 @@ export default function ModalSelectedDebiteur({
         <div className='modal_back' onClick={closeModal}>
             <div
                 onClick={(e) => e.stopPropagation()}
-                className='modal_content'
+                className='modal_content_deb'
                 style={{
                     border: '2px solid #01208752'
                 }}>

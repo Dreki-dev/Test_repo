@@ -191,27 +191,6 @@
 
 }
 
-.dragon_logo {
-    height: 35px;
-    width: 35px;
-}
-
-.modal_back_fac {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    height: 100%;
-    width: 100vw;
-    background-color: #0120873e;
-    left: 0;
-    top: 0;
-    overflow: hidden;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
 .modal_content_fac {
     border-radius: 12px;
     width: 80%;
@@ -630,22 +609,6 @@
 .title_modal_choice_debiteur_container {
     width: 100%;
     display: flex;
-}
-
-.input_field {
-    border: 1px solid #535f6e7d;
-    outline: none;
-    width: 95%;
-    height: 32px;
-    color: #212529;
-    margin-bottom: 12px;
-    border-radius: 0.25rem;
-    font-size: 18px;
-}
-
-.input_field:focus {
-    box-shadow: 0 0 0 3px #437e9757;
-    border: 1px solid #535f6e;
 }
 
 .input_case_container_modal_deb {
