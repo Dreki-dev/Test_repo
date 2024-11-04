@@ -4,7 +4,6 @@ import Link from 'next/link';
 import MyLayout from '../Layout/layout';
 
 import '../css/sharefeatures.css'
-import '../css/navbar.css'
 import '../css/addfacture.css'
 
 import DatePicker from "react-datepicker";

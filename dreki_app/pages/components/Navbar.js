@@ -71,6 +71,3 @@ const Navbar = () => {
     );
 }
 export default Navbar;
-// vps chez ovh pour monter un serveur de dev / pas besoins de gros server car juste front / Montéee petit vps / environnement de dev /
-// demmander un serveur nodejs demarage au lancement du serveur + mode dev / bien gere le code / reutilisation ou pas 
-// sous domaine njinx

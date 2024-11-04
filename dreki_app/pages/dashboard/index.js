@@ -2,7 +2,6 @@ import MyLayout from '../Layout/layout';
 import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 
-import '../css/navbar.css'
 import '../css/dashboard.css'
 import '../css/facture.css'
 import '../css/sharefeatures.css'
@@ -145,7 +144,7 @@ export default function Dashboard() {
                                     name
                                 </div>
                                 <div className='euro_container_tab_fac' style={{ justifyContent: 'center' }}>
-                                    $ à venir
+                                    € à venir
                                 </div>
                                 <div className='status_container_tab_fac'>
                                     status

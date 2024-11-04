@@ -314,7 +314,7 @@ export default function Facture() {
                             name {sortAscName ? '▲' : '▼'}
                         </div>
                         <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
-                            $ à venir {sortAscEuro ? '▲' : '▼'}
+                            € à venir {sortAscEuro ? '▲' : '▼'}
                         </div>
                         <div className='montant_container_tab_fac' onClick={handleSortTotal}>
                             montant {sortAscTotal ? '▲' : '▼'}

@@ -32,7 +32,7 @@ export default function ModalViewFacture({
                     </div>
                 </div>
                 <div className='euro_line_modal_facture'>
-                    $ a recuper :
+                    € a recuper :
                     <div className='euro_container_line_modal_facture'>
                         <div className='percent_bar_euro_container_line_modal_facture' style={{ width: '75%' }}>
                         </div>

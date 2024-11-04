@@ -3,7 +3,6 @@ import MyLayout from '../Layout/layout';
 
 import '../css/objet.css'
 import '../css/facture.css'
-import '../css/navbar.css'
 import '../css/sharefeatures.css'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
