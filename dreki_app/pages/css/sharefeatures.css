@@ -167,18 +167,14 @@
 .page_container_navbar {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    /* align-items: center; */
     width: 100%;
     height: 90vh;
     margin-top: 15%;
     background-color: #F6F9FC;
-    
 }
 
-
 html, body {
-    background-color: #F6F9FC; /* Remplace par la couleur de ton choix */
+    background-color: #F6F9FC; 
 }
 
 .image_mov_container {
@@ -199,17 +195,17 @@ html, body {
 
 .moving_image {
     position: absolute;
-    top: 50%; /* Centre vertical */
+    top: 50%;
     transform: translateY(-50%);
     animation: moveLeftToRight 5s linear infinite;
 }
 
 @keyframes moveLeftToRight {
     0% {
-        left: -100px; /* Position initiale (hors écran à gauche) */
+        left: -100px; 
     }
     100% {
-        left: 100%; /* Position finale (hors écran à droite) */
+        left: 100%; 
     }
 }
 
@@ -249,9 +245,10 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 1); /* pour une superposition légère */
-    z-index: 1000; /* pour s'assurer qu'il est au-dessus du reste */
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 1000;
 }
+
 @keyframes spinner {
     0% {
       transform: translate3d(-50%, -50%, 0) rotate(0deg);
