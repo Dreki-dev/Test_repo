@@ -1,9 +1,35 @@
-import { useState } from 'react';
 import MyLayout from '../Layout/layout';
 import '../css/sharefeatures.css';
 import '../css/params.css';
+import LoadingPage from './../components/LoadingPage.js'
+import React, { useState, useRef, useEffect } from 'react';
+import Router from 'next/router'
 
 export default function Parametre() {
+    const [loading, setLoading] = useState(false);
+    const handleRouteChangeStart = () => {
+        setLoading(true);
+        setTimeout(() => {
+        }, 0);
+    };
+
+    const handleRouteChangeComplete = () => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        Router.events.on('routeChangeStart', handleRouteChangeStart);
+        Router.events.on('routeChangeComplete', handleRouteChangeComplete);
+        Router.events.on('routeChangeError', handleRouteChangeComplete);
+
+        return () => {
+            Router.events.off('routeChangeStart', handleRouteChangeStart);
+            Router.events.off('routeChangeComplete', handleRouteChangeComplete);
+            Router.events.off('routeChangeError', handleRouteChangeComplete);
+        };
+    }, []);
     const [activeSection, setActiveSection] = useState('');
     const [editing, setEditing] = useState(false);
     const [textFields, setTextFields] = useState({
@@ -34,6 +60,8 @@ export default function Parametre() {
 
     return (
         <MyLayout>
+            {loading && <LoadingPage />}
+
             <div className='page_container_navbar'>
                 <div className='title_params_container'>
                     <div className='title_params_text'>Mes informations</div>
@@ -89,7 +117,7 @@ export default function Parametre() {
                                             choisir un fichier
                                         </label>
 
-                                        <input id={`fileUpload${index}`} type="file" style={{ display: 'none' }} accept="image/*, application/pdf" onChange={(e) => handleFileChange(e, index)}/>
+                                        <input id={`fileUpload${index}`} type="file" style={{ display: 'none' }} accept="image/*, application/pdf" onChange={(e) => handleFileChange(e, index)} />
                                     </div>
                                 </div>
                             ))}
@@ -104,7 +132,7 @@ export default function Parametre() {
                                         <div className='input_title_container'>
                                             {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}
                                         </div>
-                                        <input className='input_field' value={textFields[fieldName]} onChange={(e) => handleTextChange(e, fieldName)} onClick={() => setEditing(true)}/>
+                                        <input className='input_field' value={textFields[fieldName]} onChange={(e) => handleTextChange(e, fieldName)} onClick={() => setEditing(true)} />
                                     </div>
                                 )
                             ))}

@@ -51,7 +51,18 @@
     width: 100%;
     color: #2E3E51;
 }
-
+.loading-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 .input_field {
     border: 1px solid #535f6e7d;
     outline: none;
@@ -168,4 +179,100 @@
 
 html, body {
     background-color: #F6F9FC; /* Remplace par la couleur de ton choix */
+}
+
+.image_mov_container {
+    height: 10%;
+    width: 75%;
+    position: relative;
+    overflow: hidden;
+}
+
+.spin_mov_container {
+    height: 10%;
+    width: 75%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+
+.moving_image {
+    position: absolute;
+    top: 50%; /* Centre vertical */
+    transform: translateY(-50%);
+    animation: moveLeftToRight 5s linear infinite;
+}
+
+@keyframes moveLeftToRight {
+    0% {
+        left: -100px; /* Position initiale (hors écran à gauche) */
+    }
+    100% {
+        left: 100%; /* Position finale (hors écran à droite) */
+    }
+}
+
+@keyframes letter-scale {
+    0% { color: black; transform: scale(1);}
+    50% { color: #012087; transform: scale(1.5); }
+    100% { color: black; transform: scale(1); }
+}
+  
+.letter {
+    display: inline-block;
+    animation: letter-scale 4s infinite;
+    transform-origin: center;
+    line-height: 1em;
+    vertical-align: bottom;
+    height: 25px;
+    margin-right: 0.1em;
+    /* background-color: #5c82ff20; */
+}
+
+.text_loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    /* background-color: #01208720; */
+    width: 155px;
+}
+
+.loading_container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 1); /* pour une superposition légère */
+    z-index: 1000; /* pour s'assurer qu'il est au-dessus du reste */
+}
+@keyframes spinner {
+    0% {
+      transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
   }
+
+.spin::before {
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+  border: solid 5px #cfd0d1;
+  border-bottom-color: #012087;
+  border-radius: 50%;
+  content: "";
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 40px;
+  will-change: transform;
+}

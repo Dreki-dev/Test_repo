@@ -255,15 +255,10 @@ export default function ObjetDetail() {
                                 </div>
                             </div>
                             <div className='input_container_note'>
-                                <textarea className='input_field' style={{height: '99%', width: '99%', justifyContent: 'none', resize: 'none', textAlign: 'none', boxSizing: 'border-box', verticalAlign: 'top',lineHeight: '1.2',overflowY: 'auto'}}/>
+                                <textarea className='input_field' style={{height: '89%', width: '99%', justifyContent: 'none', resize: 'none', textAlign: 'none', boxSizing: 'border-box', verticalAlign: 'top',lineHeight: '1.2',overflowY: 'auto'}}/>
                             </div>
 
-
-
-
-
-
-                            <div className='bouton_save_container_fac' style={{ justifyContent: 'flex-end' }}>
+                            <div className='bouton_save_container_fac' style={{ justifyContent: 'flex-end', marginTop: '45px' }}>
 
                                 <div
                                     onClick={closeNoteModal}

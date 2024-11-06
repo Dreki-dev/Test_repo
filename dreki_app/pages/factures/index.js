@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Router from 'next/router';
 
 import '../css/facture.css'
 import '../css/sharefeatures.css'
@@ -14,9 +15,33 @@ import ModalViewFacture from './ModalViewFacture'
 import ModalMenuDeroulant from './ModalMenuDeroulant'
 import ModalViewDebiteur from './ModalViewDebiteur'
 import MyLayout from '../Layout/layout';
-
+import LoadingPage from './../components/LoadingPage.js'
 
 export default function Facture() {
+    const [loading, setLoading] = useState(false);
+    const handleRouteChangeStart = () => {
+        setLoading(true);
+        setTimeout(() => {
+        }, 0);
+    };
+
+    const handleRouteChangeComplete = () => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        Router.events.on('routeChangeStart', handleRouteChangeStart);
+        Router.events.on('routeChangeComplete', handleRouteChangeComplete);
+        Router.events.on('routeChangeError', handleRouteChangeComplete);
+
+        return () => {
+            Router.events.off('routeChangeStart', handleRouteChangeStart);
+            Router.events.off('routeChangeComplete', handleRouteChangeComplete);
+            Router.events.off('routeChangeError', handleRouteChangeComplete);
+        };
+    }, []);
     {/* Données de factures avec une association à des dragons */ }
 
     const choices = ['Entreprise', 'Particulier', 'Association', 'test', 'theo', 'lucas', 'end'];
@@ -35,7 +60,7 @@ export default function Facture() {
             id: '1',
             numero: '10001',
             total: 312,
-            aRecuperer: 245,
+            aRecuperer: 5,
             dateEmission: '12/05/2000',
             dateEcheance: '23/08/2025'
         },
@@ -82,7 +107,7 @@ export default function Facture() {
             euro: '125',
             id: '5',
             numero: '10005',
-            total: 300,
+            total: 125,
             aRecuperer: 125,
             dateEmission: '05/09/2021',
             dateEcheance: '22/11/2025'
@@ -117,7 +142,6 @@ export default function Facture() {
         );
     };
 
-
     {/* Gère l'ouverture/fermeture d'un dropdown */ }
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
@@ -129,10 +153,6 @@ export default function Facture() {
     const { id } = router.query;
     const [selectedFacture, setSelectedFacture] = useState(null);
 
-
-
-
-
     {/* Effet pour sélectionner et afficher la facture selon l'id */ }
     useEffect(() => {
         if (id) {
@@ -141,6 +161,7 @@ export default function Facture() {
                 setSelectedFacture(factureToDisplay);
                 setIsModalOpen(true);
             }
+            router.push('/factures', undefined, { shallow: true });
         }
     }, [id, facturesAvecDragon]);
 
@@ -187,15 +208,15 @@ export default function Facture() {
         const sortedFactures = [...filteredFactures].sort((a, b) => {
             const dragonKeyA = Object.keys(dragons).find(key => dragons[key] === a.dragon);
             const dragonKeyB = Object.keys(dragons).find(key => dragons[key] === b.dragon);
-    
-            return sortAscDragon 
-                ? dragonKeyA.localeCompare(dragonKeyB) 
+
+            return sortAscDragon
+                ? dragonKeyA.localeCompare(dragonKeyB)
                 : dragonKeyB.localeCompare(dragonKeyA);
         });
         setFacturesAvecDragon(sortedFactures);
         setSortAscDragon(!sortAscDragon);
     };
-    
+
 
     {/* Modal pour afficher les détails d'une facture */ }
     const openModalWithFacture = (factureId) => {
@@ -288,102 +309,102 @@ export default function Facture() {
 
     return (
         <MyLayout>
-            <div className='page_container_navbar'>
+            {loading && <LoadingPage />}
+                <div className='page_container_navbar'>
 
-                <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div className='title_params_text'>Factures</div>
-                    <div
-                        className='reset_filter_button'
-                        onClick={() => {
-                            setSearchTerm('');
-                            setDebiteur(null);
-                        }}
-                    >
-                        voir toute les factures
+                    <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div className='title_params_text'>Factures</div>
+                        <div
+                            className='reset_filter_button'
+                            onClick={() => {
+                                setSearchTerm('');
+                                setDebiteur(null);
+                            }}
+                        >
+                            voir toute les factures
+                        </div>
                     </div>
+                    <div className='button_container_fac'>
+                        <div className='button_add_fac' href={'./add_factures'} onClick={openDebiteurModal}>
+                            Ajouter une facture
+                        </div>
+                        <input className='search_input' placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    </div>
+                    <div className='facture_tab_container'>
+                        <div className='fixed_case_container_tab_fac'>
+                            <div className='name_container_tab_fac' onClick={handleSortName}>
+                                name {sortAscName ? '▲' : '▼'}
+                            </div>
+                            <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                                € à venir {sortAscEuro ? '▲' : '▼'}
+                            </div>
+                            <div className='montant_container_tab_fac' onClick={handleSortTotal}>
+                                montant {sortAscTotal ? '▲' : '▼'}
+                            </div>
+                            <div className='status_container_tab_fac' onClick={handleSortDragon}>
+                                status {sortAscDragon ? '▲' : '▼'}
+                            </div>
+
+                        </div>
+                        <div className='container_scroll_fac'>
+                            {filteredFactures.map((factures, index) => (
+                                <FactureCase
+                                    key={index}
+                                    name={factures.name}
+                                    backColor={factures.backColor}
+                                    dragon={factures.dragon}
+                                    euro={factures.euro}
+                                    id={factures.id}
+                                    total={factures.total}
+                                    aRecuperer={factures.aRecuperer}
+                                    dateEmission={factures.dateEmission}
+                                    dateEcheance={factures.dateEcheance}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    {isModalOpen && selectedFacture && (
+                        <ModalViewFacture
+                            closeModal={closeModal}
+                            selectedFacture={selectedFacture}
+                            openDragonModal={openDragonModal}
+                            blue_dragon={blue_dragon.src}
+                            id={selectedFacture.id}
+                            dateEmission={selectedFacture.dateEmission}
+                            dateEcheance={selectedFacture.dateEcheance}
+                            aRecuperer={selectedFacture.aRecuperer}
+                            total={selectedFacture.total}
+                        />
+                    )}
+
+                    {isDragonModalOpen && (
+                        <ModalDragon
+                            closeDragonModal={closeDragonModal}
+                            toggleDropdown={toggleDropdown}
+                            isOpen={isOpen}
+                            blue_dragon={blue_dragon.src}
+                            red_dragon={red_dragon.src}
+                            white_dragon={white_dragon.src}
+                        />
+                    )}
+                    {isEditingDeroulantMenu && (
+                        <ModalMenuDeroulant
+                            left={dropdownPosition.left}
+                            top={dropdownPosition.top}
+                            filteredChoices={filteredChoices}
+                            handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
+                        />
+                    )}
+                    {isDebiteurModalOpen && (
+                        <ModalViewDebiteur
+                            closeDebiteurModal={closeDebiteurModal}
+                            handleBlur={handleBlur}
+                            handleInputChange={handleInputChange}
+                            handleClickDeroulant={handleClickDeroulant}
+                            textDeroulantMenu={textDeroulantMenu}
+                        />
+                    )}
                 </div>
-                <div className='button_container_fac'>
-                    <div className='button_add_fac' href={'./add_factures'} onClick={openDebiteurModal}>
-                        Ajouter une facture
-                    </div>
-                    <input className='search_input' placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                </div>
-                <div className='facture_tab_container'>
-                    <div className='fixed_case_container_tab_fac'>
-                        <div className='name_container_tab_fac' onClick={handleSortName}>
-                            name {sortAscName ? '▲' : '▼'}
-                        </div>
-                        <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
-                            € à venir {sortAscEuro ? '▲' : '▼'}
-                        </div>
-                        <div className='montant_container_tab_fac' onClick={handleSortTotal}>
-                            montant {sortAscTotal ? '▲' : '▼'}
-                        </div>
-                        <div className='status_container_tab_fac' onClick={handleSortDragon}>
-                            status {sortAscDragon ? '▲' : '▼'}
-                        </div>
-
-                    </div>
-                    <div className='container_scroll_fac'>
-                        {filteredFactures.map((factures, index) => (
-                            <FactureCase
-                                key={index}
-                                name={factures.name}
-                                backColor={factures.backColor}
-                                dragon={factures.dragon}
-                                euro={factures.euro}
-                                id={factures.id}
-                                total={factures.total}
-                                aRecuperer={factures.aRecuperer}
-                                dateEmission={factures.dateEmission}
-                                dateEcheance={factures.dateEcheance}
-                            />
-                        ))}
-                    </div>
-                </div>
-                {isModalOpen && selectedFacture && (
-                    <ModalViewFacture
-                        closeModal={closeModal}
-                        selectedFacture={selectedFacture}
-                        openDragonModal={openDragonModal}
-                        blue_dragon={blue_dragon.src}
-                        id={selectedFacture.id}
-                        dateEmission={selectedFacture.dateEmission}
-                        dateEcheance={selectedFacture.dateEcheance}
-                        aRecuperer={selectedFacture.aRecuperer}
-                        total={selectedFacture.total}
-                    />
-                )}
-
-                {isDragonModalOpen && (
-                    <ModalDragon
-                        closeDragonModal={closeDragonModal}
-                        toggleDropdown={toggleDropdown}
-                        isOpen={isOpen}
-                        blue_dragon={blue_dragon.src}
-                        red_dragon={red_dragon.src}
-                        white_dragon={white_dragon.src}
-                    />
-                )}
-                {isEditingDeroulantMenu && (
-                    <ModalMenuDeroulant
-                        left={dropdownPosition.left}
-                        top={dropdownPosition.top}
-                        filteredChoices={filteredChoices}
-                        handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
-                    />
-                )}
-                {isDebiteurModalOpen && (
-                    <ModalViewDebiteur
-                        closeDebiteurModal={closeDebiteurModal}
-                        handleBlur={handleBlur}
-                        handleInputChange={handleInputChange}
-                        handleClickDeroulant={handleClickDeroulant}
-                        textDeroulantMenu={textDeroulantMenu}
-                    />
-                )}
-            </div>
-
         </MyLayout >
 
     );

@@ -3,12 +3,14 @@ import { useState, useRef } from 'react';
 import ModalConnexion from './components/ModalConnexion';
 import ModalInscription from './components/ModalInscription';
 
+
 export default function Connexion() {
+
   const [showModalConnexion, setShowModalConnexion] = useState(false);
   const [animationClass, setAnimationClass] = useState('');
-  
+
   const [showModalInscription, setShowModalInscription] = useState(false);
-  
+
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState("Theo.abitbol@gmail.com")
   const [editingMdp, setEditingMdp] = useState(false);
@@ -58,7 +60,7 @@ export default function Connexion() {
 
   };
 
-  const handleClickName= (e) => {
+  const handleClickName = (e) => {
     setEditingName(true);
   };
   const handleClickMail = (e) => {
@@ -82,6 +84,7 @@ export default function Connexion() {
   };
   return (
     <div className="main_content">
+
       <div className='login_Content'>
         <div className='logo_content'>
           <div className={`swap_logo_first ${showModalConnexion ? 'fade-in' : 'fade-out'}`}>
@@ -97,7 +100,7 @@ export default function Connexion() {
         <div className='connexion_button' onClick={toggleModalConnexion}>
           CONNEXION
         </div>
-        <div className='inscription_button'onClick={toggleModalInscription}>
+        <div className='inscription_button' onClick={toggleModalInscription}>
           INSCRIPTION
         </div>
         <div className='help_button'>
@@ -108,7 +111,7 @@ export default function Connexion() {
       </div>
       {showModalConnexion && (
         <ModalConnexion
-         showModalConnexion={showModalConnexion}
+          showModalConnexion={showModalConnexion}
           animationClass={animationClass}
           toggleModalConnexion={toggleModalConnexion}
           editing={editing}
@@ -121,12 +124,12 @@ export default function Connexion() {
           setTextMdp={setTextMdp}
           handleOutsideClick={handleOutsideClick}
           handleOutsideClick2={handleOutsideClick2}
-          handleOutsideClick2Mdp={handleOutsideClick2Mdp}/>
+          handleOutsideClick2Mdp={handleOutsideClick2Mdp} />
       )}
 
       {showModalInscription && (
-        <ModalInscr iption
-         showModalInscription={showModalInscription}
+        <ModalInscription
+          showModalInscription={showModalInscription}
           animationClass={animationClass}
           toggleModalInscription={toggleModalInscription}
           editingName={editingName}
@@ -153,7 +156,7 @@ export default function Connexion() {
           handleOutsideClickIns={handleOutsideClickIns}
 
           handleOutsideClick2={handleOutsideClick2}
-          handleOutsideClick2Mdp={handleOutsideClick2Mdp}/>
+          handleOutsideClick2Mdp={handleOutsideClick2Mdp} />
       )}
     </div>
   );

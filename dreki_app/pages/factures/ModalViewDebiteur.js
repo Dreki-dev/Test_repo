@@ -32,7 +32,7 @@ export default function ModalViewDebiteur({
 
                 </div>
                 <div className='bouton_save_container_fac'>
-                    <div className='button_save' style={{ paddingLeft: '4px', paddingRight: '4px', height: '35px'  }}>AJOUTER DEBITEUR</div>
+                    <Link className='button_save' href={'./debiteurs?section=ajouterDeb'} style={{ paddingLeft: '4px', paddingRight: '4px', height: '35px'  }}>AJOUTER DEBITEUR</Link>
                     <Link className='button_save' href={'./add_factures'} style={{ paddingLeft: '4px', paddingRight: '4px', height: '35px' }}>SAUVEGARDER</Link>
                 </div>
             </div>

@@ -7,10 +7,36 @@ import ModalSelectedDebiteur from './ModalSelectedDebiteur';
 import ModalMenuDeroulant2 from './ModalMenuDeroulant2';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import LoadingPage from './../components/LoadingPage.js'
+import Router from 'next/router';
 
 export default function Debiteur() {
+    const [loading, setLoading] = useState(false);
+    const handleRouteChangeStart = () => {
+        setLoading(true);
+        setTimeout(() => {
+        }, 0);
+    };
+
+    const handleRouteChangeComplete = () => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        Router.events.on('routeChangeStart', handleRouteChangeStart);
+        Router.events.on('routeChangeComplete', handleRouteChangeComplete);
+        Router.events.on('routeChangeError', handleRouteChangeComplete);
+
+        return () => {
+            Router.events.off('routeChangeStart', handleRouteChangeStart);
+            Router.events.off('routeChangeComplete', handleRouteChangeComplete);
+            Router.events.off('routeChangeError', handleRouteChangeComplete);
+        };
+    }, []);
     const router = useRouter();
-    
+
     {/* Fonction pour gérer l'apparition du menu déroulant */ }
     const handleSelectChoiceDeroulantMenu = (choice) => {
         setTextDeroulantMenu(choice);
@@ -30,7 +56,7 @@ export default function Debiteur() {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-    
+
     {/* Fonction pour gérer la perte de focus sur le menu déroulant et fermer le menu après un délai */ }
     const handleBlur = () => {
         setTimeout(() => {
@@ -138,8 +164,15 @@ export default function Debiteur() {
         return (nameMatches || dueMatches || stateMatches) && debiteurMatches;
     });
 
+    useEffect(() => {
+        if (router.query.section) {
+            setActiveSection(router.query.section);
+        }
+    }, [router.query]);
+
     return (
         <MyLayout>
+            {loading && <LoadingPage />}
             <div className='page_container_navbar'>
                 <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div className='title_params_text'>Débiteurs</div>
@@ -159,7 +192,7 @@ export default function Debiteur() {
                             setActiveSection('ajouterDeb');
                             setDebButtonClicked(true);
                         }}>
-                            Ajouter ou modifier<br />un débiteur
+                            Ajouter un débiteur
                         </div>
                     ) : (
                         <div className='button_add_deb' onClick={() => {
@@ -169,7 +202,7 @@ export default function Debiteur() {
                             Afficher votre liste<br />de débiteurs
                         </div>
                     )}
-                    <input className='search_input' style={{backgroundColor:'white'}} placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                    <input className='search_input' style={{ backgroundColor: 'white' }} placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
 
                 </div>
 
@@ -182,7 +215,7 @@ export default function Debiteur() {
                             <div className='case_status_menu' onClick={handleSortStatus}>
                                 Status {sortAscStat ? '▲' : '▼'}
                             </div>
-                            <div className='case_action_menu' onClick={handleSortDue} style={{whiteSpace: 'nowrap'}}>
+                            <div className='case_action_menu' onClick={handleSortDue} style={{ whiteSpace: 'nowrap' }}>
                                 Montant due {sortAscDue ? '▲' : '▼'}
                             </div>
                         </div>
@@ -268,9 +301,9 @@ export default function Debiteur() {
                             </div>
                             <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
                         </div>
-                        <div className='bouton_save_container' style={{width: '90%'}}>
-                            <div className='button_save' style={{paddingLeft: '6px', paddingRight: '6px'}} >SAUVEGARDER <br />+ CREATION FACTURE</div>
-                            <div className='button_save' style={{paddingLeft: '6px', paddingRight: '6px'}}>SAUVEGARDER</div>
+                        <div className='bouton_save_container' style={{ width: '90%' }}>
+                            <Link href='/add_factures' className='button_save' style={{ paddingLeft: '6px', paddingRight: '6px', textDecoration: 'none' }} >SAUVEGARDER <br />+ CREATION FACTURE</Link>
+                            <div className='button_save' style={{ paddingLeft: '6px', paddingRight: '6px' }} onClick={() => setActiveSection('')}>SAUVEGARDER</div>
                         </div>
                     </div>
                 )}
@@ -282,13 +315,13 @@ export default function Debiteur() {
                     />
                 )}
                 {isModalOpen && selectedDebiteur && (
-                   <ModalSelectedDebiteur
+                    <ModalSelectedDebiteur
                         closeModal={closeModal}
                         selectedDebiteur={selectedDebiteur}
                         name={selectedDebiteur.name}
                         due={selectedDebiteur.due}
-                        
-                   />
+
+                    />
                 )}
             </div>
         </MyLayout >

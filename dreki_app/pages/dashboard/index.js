@@ -1,5 +1,5 @@
 import MyLayout from '../Layout/layout';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
 import '../css/dashboard.css'
@@ -9,9 +9,36 @@ import '../css/sharefeatures.css'
 import blue_dragon from '../../public/images/logo_mini_dreki_blue.png'
 import white_dragon from '../../public/images/logo_mini_dreki_white.png'
 import red_dragon from '../../public/images/logo_mini_dreki_red.png'
+import LoadingPage from './../components/LoadingPage.js'
+import Router from 'next/router'
+import { useRouter } from 'next/router';
 
 export default function Dashboard() {
+    const [loading, setLoading] = useState(false);
+    const handleRouteChangeStart = () => {
+        setLoading(true);
+        setTimeout(() => {
+        }, 0);
+    };
 
+    const handleRouteChangeComplete = () => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    };
+
+    useEffect(() => {
+        Router.events.on('routeChangeStart', handleRouteChangeStart);
+        Router.events.on('routeChangeComplete', handleRouteChangeComplete);
+        Router.events.on('routeChangeError', handleRouteChangeComplete);
+
+        return () => {
+            Router.events.off('routeChangeStart', handleRouteChangeStart);
+            Router.events.off('routeChangeComplete', handleRouteChangeComplete);
+            Router.events.off('routeChangeError', handleRouteChangeComplete);
+        };
+    }, []);
+    const router = useRouter();
     const [facture, setFacture] = useState([
         { 
             name: 'Theo Dupont', 
@@ -52,21 +79,6 @@ export default function Dashboard() {
         
     ]);
 
-
-    const handleClick = (buttonRef) => {
-        if (buttonRef.current) {
-            console.log("clickmodale")
-            const rect = buttonRef.current.getBoundingClientRect();
-
-            setModalPosition({
-                top: rect.bottom + window.scrollY - 60,
-                left: rect.left + window.scrollX - 140
-            });
-
-            setIsModalOpen(true);
-        }
-    };
-
     const FactureCase = ({ name, backColor, dragon, euro, id }) => {
         console.log(dragon)
         return (
@@ -106,6 +118,8 @@ export default function Dashboard() {
     
     return (
         <MyLayout>
+            {loading && <LoadingPage />}
+
             <div className='page_container_navbar' style={{ overflowY: 'hidden' }}>
 
 

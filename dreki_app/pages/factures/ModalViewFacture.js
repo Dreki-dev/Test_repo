@@ -12,6 +12,7 @@ export default function ModalViewFacture({
     aRecuperer,
     total
 }) {
+    const pourcentageRestant = ((total - aRecuperer) / total) * 100;
     return (
         <div className='modal_back' onClick={closeModal}>
             <div
@@ -34,7 +35,10 @@ export default function ModalViewFacture({
                 <div className='euro_line_modal_facture'>
                     € a recuper :
                     <div className='euro_container_line_modal_facture'>
-                        <div className='percent_bar_euro_container_line_modal_facture' style={{ width: '75%' }}>
+                        <div className='percent_bar_euro_container_line_modal_facture' style={{ width: `${pourcentageRestant}%` }}>
+                        </div>
+                        <div className='indicator_progress_bar'>
+
                         </div>
                     </div>
                     <div className='percent_container_line_modal_facture'>
@@ -84,8 +88,7 @@ export default function ModalViewFacture({
                     </div>
                 </div>
                 <div className='button_line_modal_facture'>
-                    <Link className='button_modal_facture_note' href={{ pathname: `/objet/${id}`, query: { showModal: true } }}
-                    >
+                    <Link className='button_modal_facture_note' href={{ pathname: `/objet/${id}`, query: { showModal: true } }}>
                         Ajouter note
                     </Link>
                     <Link className='button_modal_facture_edit' href={`/mod_factures?id=${id}`}>
