@@ -52,6 +52,10 @@ const Navbar = () => {
                         <img className="navbar_icon" src='/images/user.png' alt="Logo" />
                         <Link className="link_navbar" href="/debiteurs">Débiteurs</Link>
                     </div>
+                    <div className="expanded_item">
+                        <img className="navbar_icon" src='/images/enveloppe.png' alt="Logo" />
+                        <Link className="link_navbar" href="/notes">Notes</Link>
+                    </div>
                     <div className="line_separator" />
                     <div className="expanded_item">
                         <img className="navbar_icon" src='/images/param.png' alt="Logo" />

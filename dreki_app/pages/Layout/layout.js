@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar';
 export default function MyLayout({ children }) {
   const pathname = usePathname();
  
-  const paths = ["/objet", "/parametres", "/mod_debiteurs", "/factures", "/add_factures", "/debiteurs", "/dashboard", "/mod_factures"];
+  const paths = ["/objet", "/parametres", "/mod_debiteurs", "/factures", "/add_factures", "/debiteurs", "/dashboard", "/mod_factures", "/notes"];
 
   if (!paths.some(path => pathname.includes(path))) {
     return null;

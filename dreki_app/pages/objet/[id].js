@@ -22,9 +22,7 @@ export default function ObjetDetail() {
     /* Constantes et données initiales */
     const { id } = router.query;
     const [factureData, setFactureData] = useState(null);
-    const Test = {
-        theo: 'tt', prout: 'zz', lolo: 'aa'
-    }
+
 
     /* État initial */
     const [factures, setFactures] = useState([
@@ -240,7 +238,6 @@ export default function ObjetDetail() {
                             className='modal_content_fac'
                             style={{
                                 border: '2px solid #01208752',
-                                height: '25%',
                                 justifyContent: 'normal'
                             }}
                         >

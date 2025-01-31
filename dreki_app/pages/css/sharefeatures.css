@@ -95,7 +95,7 @@
     align-items: center;
     height: 45px;
     width: auto;
-    font-size: 14px;
+    font-size: 4vw;
     color: #2E3E51;
     border: 1px solid #2E3E51;
     padding-left: 12px;
@@ -210,9 +210,16 @@ html, body {
 }
 
 @keyframes letter-scale {
-    0% { color: black; transform: scale(1);}
-    50% { color: #012087; transform: scale(1.5); }
-    100% { color: black; transform: scale(1); }
+    
+    0% { 
+        color: black; 
+    }
+    50% { 
+        color: #012087; 
+    }
+    100% { 
+        color: black; 
+    }
 }
   
 .letter {

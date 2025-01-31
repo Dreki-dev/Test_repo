@@ -39,7 +39,7 @@
     padding-left: 6px;
     padding-right: 6px;
     border-radius: 6px;
-    width: 150px;
+    /* width: 150px; */
     white-space: nowrap;
 
 }
@@ -60,7 +60,7 @@
     justify-content: center;
     align-items: center;
     height: 45px;
-    width: 150px;
+    /* width: 150px; */
     color: #2E3E51;
     border: 1px solid #2E3E51;
     padding-left: 6px;

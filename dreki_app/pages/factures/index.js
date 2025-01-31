@@ -42,7 +42,6 @@ export default function Facture() {
             Router.events.off('routeChangeError', handleRouteChangeComplete);
         };
     }, []);
-    {/* Données de factures avec une association à des dragons */ }
 
     const choices = ['Entreprise', 'Particulier', 'Association', 'test', 'theo', 'lucas', 'end'];
 
