@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import MyLayout from '../Layout/layout';
 import '../css/debiteurs.css';
 import '../css/sharefeatures.css';
+import axiosInstance from '../../src/app/config/axios';
 
 export default function ModiDebiteur() {
     const router = useRouter();
@@ -19,7 +20,7 @@ export default function ModiDebiteur() {
             raisonSociale: 'Bijoutier',
             siren: '362 521 879 00034',
             adresse: '56 rue de Lavaud',
-            codePostal: '33000',    
+            codePostal: '33000',
             ville: 'Bordeaux',
             telephone: '07 81 58 25 12',
             email: 'theo.dupont@gmail.com',
@@ -104,47 +105,63 @@ export default function ModiDebiteur() {
         type: ''
     });
 
+    const fetchDebiteurById = async (id) => {
+        try {
+            const response = await axiosInstance.get(`/api/societes/${id}`);
+            const debiteur = response.data.societe;
+
+            // Mettre à jour le formData avec les données reçues
+            setFormData({
+                raisonSociale: debiteur.raisonsociale || '',
+                siren: debiteur.siren || '',
+                nomContact: debiteur.contact || '',
+                adresse: debiteur.adresse1 || '',
+                codePostal: debiteur.cp || '',
+                ville: debiteur.ville || '',
+                telephone: debiteur.telephone || '',
+                email: debiteur.mail || '',
+                type: debiteur.type === 1 ? 'Entreprise' : 'Particulier'
+            });
+        } catch (error) {
+            console.error('Erreur lors de la récupération du débiteur:', error);
+        }
+    };
+
     useEffect(() => {
         if (debiteurFromUrl) {
-            const foundDebiteur = debiteurs.find(
-                (deb) => deb.name === debiteurFromUrl || deb.id === debiteurFromUrl
-            );
-            if (foundDebiteur) {
-                setSelectedDebiteur(foundDebiteur);
-                setFormData({
-                    raisonSociale: foundDebiteur.raisonSociale,
-                    siren: foundDebiteur.id,
-                    nomContact: foundDebiteur.name,
-                    adresse: foundDebiteur.adresse,
-                    codePostal: foundDebiteur.codePostal,
-                    ville: foundDebiteur.ville,
-                    telephone: foundDebiteur.telephone,
-                    email: foundDebiteur.email,
-                    type: foundDebiteur.type
-                });
-            }
+            fetchDebiteurById(debiteurFromUrl);
         }
-    }, [debiteurFromUrl, debiteurs]);
+    }, [debiteurFromUrl]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
-    const handleSave = () => {
-        if (selectedDebiteur) {
-            const updatedDebiteurs = debiteurs.map((deb) =>
-                deb.id === selectedDebiteur.id ? { ...deb, ...formData } : deb
-            );
-            setDebiteurs(updatedDebiteurs);
-            console.log('Debiteur modifié :', updatedDebiteurs);
-            router.push('/debiteurs');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const handleSave = async () => {
+        try {
+            setIsSubmitting(true);
+            const response = await axiosInstance.put(`/api/societes/${debiteurFromUrl}`, {
+                type: formData.type === 'Entreprise' ? 1 : 2,
+                raisonsociale: formData.raisonSociale,
+                contact: formData.nomContact,
+                mail: formData.email,
+                telephone: formData.telephone,
+                adresse1: formData.adresse,
+                cp: formData.codePostal,
+                ville: formData.ville,
+                siren: formData.siren
+            });
+    
+            if (response.status === 200) {
+                router.push('/debiteurs');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la modification du débiteur:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
-
-    if (!selectedDebiteur) {
-        return <div>Chargement...</div>;
-    }
 
     return (
         <MyLayout>
@@ -188,7 +205,13 @@ export default function ModiDebiteur() {
                     ))}
 
                     <div className='bouton_save_container'>
-                        <div className='button_save' onClick={handleSave}>SAUVEGARDER</div>
+                        <div
+                            className='button_save'
+                            onClick={handleSave}
+                            style={{ opacity: isSubmitting ? 0.7 : 1 }}
+                        >
+                            {isSubmitting ? 'SAUVEGARDE...' : 'SAUVEGARDER'}
+                        </div>
                     </div>
                 </div>
             </div>

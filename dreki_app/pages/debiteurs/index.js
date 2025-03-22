@@ -9,8 +9,80 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import LoadingPage from './../components/LoadingPage.js'
 import Router from 'next/router';
+import axiosInstance from '../../src/app/config/axios';
+import blue_dragon from '../../public/images/logo_mini_dreki_blue.png';
+import white_dragon from '../../public/images/logo_mini_dreki_white.png';
+import red_dragon from '../../public/images/logo_mini_dreki_red.png';
 
-export default function Debiteur() {
+export default function debiteurs() {
+
+    const dragons = {
+        blue_dragon: blue_dragon,
+        red_dragon: red_dragon,
+        white_dragon: white_dragon,
+    };
+    const [formData, setFormData] = useState({
+        type: 'Entreprise', // Valeur par défaut
+        raisonSociale: '',
+        siren: '',
+        nomContact: '',
+        adresse: '',
+        codePostal: '',
+        ville: '',
+        telephone: '',
+        email: ''
+    });
+    const [error, setError] = useState(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleSave = async (createFacture = false) => {
+        try {
+            setIsSubmitting(true);
+            setError(null);
+
+            const response = await axiosInstance.post('/api/societes', {
+                type: 1, // Si c'est une entreprise
+                raisonsociale: formData.raisonSociale,
+                siren: formData.siren,
+                contact: formData.nomContact,
+                adresse1: formData.adresse,
+                cp: formData.codePostal,
+                ville: formData.ville,
+                telephone: formData.telephone,
+                mail: formData.email
+            });
+
+            // Recharger la liste des débiteurs
+            const societesData = await fetchDebiteurs();
+            const formattedDebiteurs = societesData.map(societe => ({
+                id: societe.id,
+                name: societe.raisonsociale || 'Sans nom',
+                backColor: '#FFF5E6',
+                textColor: '#FF8A00',
+                textPaie: societe.type === 1 ? 'Client' : 'Fournisseur',
+                due: societe.mail
+            }));
+            setDebiteurs(formattedDebiteurs);
+
+            if (createFacture) {
+                router.push(`/add_factures?societeId=${response.data.societe.id}`);
+            } else {
+                setActiveSection('');
+            }
+
+        } catch (err) {
+            setError(err.response?.data?.error || 'Une erreur est survenue lors de la création');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     const [loading, setLoading] = useState(false);
     const handleRouteChangeStart = () => {
         setLoading(true);
@@ -36,6 +108,7 @@ export default function Debiteur() {
         };
     }, []);
     const router = useRouter();
+    const [debiteurs, setDebiteurs] = useState([]);
 
     {/* Fonction pour gérer l'apparition du menu déroulant */ }
     const handleSelectChoiceDeroulantMenu = (choice) => {
@@ -77,19 +150,110 @@ export default function Debiteur() {
     const [sortAscName, setSortAscName] = useState(true);
     const [sortAscStat, setSortAscStat] = useState(true);
     const [sortAscDue, setSortAscDue] = useState(true);
+    const [selectedDebiteurFromUrl, setSelectedDebiteurFromUrl] = useState(null);
 
-    {/* État pour stocker les débiteurs et leurs données initiales */ }
-    const [debiteurs, setDebiteurs] = useState([
-        { name: 'Theo Dupont', id: '1', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '544788' },
-        { name: 'Jean Martin', id: '2', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '1444' },
-        { name: 'Marie Lefevre', id: '3', backColor: 'rgba(255, 166, 0, 0.085)', textColor: 'rgb(255, 166, 0)', textPaie: 'Paiement partiel', due: '188775' },
-        { name: 'Emma Moreau', id: '4', backColor: 'rgba(255, 0, 0, 0.085)', textColor: 'rgba(255, 0, 0, 1)', textPaie: 'Paiement inexistant', due: '1475' },
-        { name: 'Lucas Girard', id: '5', backColor: 'rgba(16, 137, 16, 0.085)', textColor: 'rgba(16, 137, 16, 1)', textPaie: 'Paiement complet', due: '753' },
-    ]);
+    const fetchDebiteurs = async () => {
+        try {
+            const response = await axiosInstance.get('/api/societes', {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true
+            });
+
+            return response.data.societes;
+        } catch (error) {
+            return [];
+        }
+    };
+    
+    const fetchFacturesParDebiteur = async (debiteurId) => {
+        try {
+            // Récupérez toutes les factures
+            const response = await axiosInstance.get('/api/factures');
+
+            // Filtrez uniquement les factures du débiteur spécifié
+            const facturesDebiteur = response.data.factures.filter(facture =>
+                facture.societe && facture.societe === debiteurId
+            );
+
+            return facturesDebiteur;
+        } catch (error) {
+            return [];
+        }
+    };
+    const getStatusColor = (etat) => {
+        switch (etat) {
+            case 1: return '#ffeecc';
+            case 2: return '#ccffcc';
+            case 3: return '#ffcccc';
+            default: return '#f5f5f5'
+        }
+    };
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR');
+    };
+    const getDragonByStatus = (etat) => {
+        switch (etat) {
+            case 1: return dragons.blue_dragon;
+            case 2: return dragons.white_dragon;
+            case 3: return dragons.red_dragon;
+            default: return dragons.blue_dragon;
+        }
+    };
+    // Modifiez votre fonction loadDebiteurs pour déboguer les données
+    useEffect(() => {
+    const loadDebiteurs = async () => {
+        try {
+            // 1. Récupérer tous les débiteurs
+            const societesData = await fetchDebiteurs();
+            
+            // 2. Récupérer toutes les factures
+            const facturesResponse = await axiosInstance.get('/api/factures');
+            const allFactures = facturesResponse.data.factures;
+            
+            const formattedDebiteurs = societesData.map(societe => {
+                // Filtrer les factures pour ce débiteur - ATTENTION: societe est un objet!
+                const facturesDebiteur = allFactures.filter(facture => 
+                    facture.societe && 
+                    typeof facture.societe === 'object' && 
+                    facture.societe.id === societe.id
+                );
+                
+                // Calculer le montant total à récupérer
+                let montantDu = 0;
+                facturesDebiteur.forEach(facture => {
+                    montantDu += (facture.creance - facture.recupere);
+                });
+                
+                
+                return {
+                    id: societe.id,
+                    name: societe.raisonsociale || societe.contact || 'Sans nom',
+                    backColor: '#FFF5E6',
+                    textColor: '#FF8A00',
+                    textPaie: societe.type === 1 ? 'Client' : 'Fournisseur',
+                    due: `${montantDu.toFixed(2)} €`,
+                    email: societe.mail,
+                   
+                };
+            });
+            
+            setDebiteurs(formattedDebiteurs);
+        } catch (error) {
+            console.error('Erreur lors du chargement des données:', error);
+        }
+    };
+
+    loadDebiteurs();
+}, []);
 
     {/* Fonction pour gérer les clics sur un débiteur et ouvrir la modal */ }
-    const handleClick = (debiteur) => {
-        setSelectedDebiteur(debiteur);
+    const handleClick = (debiteurs) => {
+        setSelectedDebiteur(debiteurs);
         setIsModalOpen(true);
     };
 
@@ -105,7 +269,14 @@ export default function Debiteur() {
 
     {/* Fonctions de tri pour les débiteurs par nom, statut de paiement et date d'échéance */ }
     const handleSortDue = () => {
-        const sortedDebiteurs = [...debiteurs].sort((a, b) => sortAscDue ? a.due - b.due : b.due - a.due);
+        const sortedDebiteurs = [...debiteurs].sort((a, b) => {
+            // Extraire le nombre de la chaîne (en supprimant "€" et les espaces)
+            const dueA = parseFloat(a.due.replace(/[^0-9.-]+/g, "")) || 0;
+            const dueB = parseFloat(b.due.replace(/[^0-9.-]+/g, "")) || 0;
+            
+            return sortAscDue ? dueA - dueB : dueB - dueA;
+        });
+        
         setDebiteurs(sortedDebiteurs);
         setSortAscDue(!sortAscDue);
     };
@@ -123,14 +294,19 @@ export default function Debiteur() {
     };
 
     {/* Composant pour afficher les informations d'un débiteur */ }
-    const DebiteurCase = ({ name, backColor, textColor, textPaie, handleClick, due }) => {
+    const DebiteurCase = ({ id, name, backColor, textColor, textPaie, handleClick, due }) => {
         const handleButtonClick = () => {
-            handleClick();
+            handleClick(id);
         };
-
+        function truncateText(text, maxLength = 15) {
+            if (text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        }
         return (
             <div className='input_case_container_deb' onClick={handleButtonClick} >
-                <div className='case_name_menu'>{name}</div>
+                <div className='case_name_menu' >{truncateText(name)}</div>
                 <div className='case_status_menu'>
                     <div className='button_status' style={{ backgroundColor: backColor, color: textColor }}>
                         {textPaie}
@@ -143,14 +319,12 @@ export default function Debiteur() {
         );
     };
 
-    {/* État pour stocker le terme de recherche pour filtrer les débiteurs */ }
     const [searchTerm, setSearchTerm] = useState('');
-    const [debiteur, setDebiteur] = useState(null);
 
     {/* Mise à jour du débiteur sélectionné à partir de l'URL */ }
     useEffect(() => {
-        const { debiteur: debiteurFromUrl } = router.query;
-        setDebiteur(debiteurFromUrl || null);
+        const { debiteurs: debiteurFromUrl } = router.query;
+        setSelectedDebiteurFromUrl(debiteurFromUrl || null);
     }, [router.query]);
 
     {/* Filtre les débiteurs en fonction du terme de recherche et du débiteur sélectionné */ }
@@ -159,7 +333,7 @@ export default function Debiteur() {
         const nameMatches = fact.name.toLowerCase().includes(searchTermLower);
         const dueMatches = fact.due.includes(searchTerm);
         const stateMatches = fact.textPaie.includes(searchTerm);
-        const debiteurMatches = debiteur ? fact.name === debiteur : true;
+        const debiteurMatches = selectedDebiteurFromUrl ? fact.name === selectedDebiteurFromUrl : true;
 
         return (nameMatches || dueMatches || stateMatches) && debiteurMatches;
     });
@@ -169,7 +343,6 @@ export default function Debiteur() {
             setActiveSection(router.query.section);
         }
     }, [router.query]);
-
     return (
         <MyLayout>
             {loading && <LoadingPage />}
@@ -180,7 +353,6 @@ export default function Debiteur() {
                         className='reset_filter_button'
                         onClick={() => {
                             setSearchTerm('');
-                            setDebiteur(null);
                         }}
                     >
                         voir tous les débiteurs
@@ -209,101 +381,181 @@ export default function Debiteur() {
                 {activeSection === '' && (
                     <div className='debiteur_tab_container'>
                         <div className='fixed_input_case_container_deb'>
-                            <div className='case_name_menu' onClick={handleSortName} >
+                            <div className='case_name_menu' style={{alignItems: 'center', display: 'flex'}} onClick={handleSortName} >
                                 Nom {sortAscName ? '▲' : '▼'}
                             </div>
                             <div className='case_status_menu' onClick={handleSortStatus}>
-                                Status {sortAscStat ? '▲' : '▼'}
+                                Statut {sortAscStat ? '▲' : '▼'}
                             </div>
                             <div className='case_action_menu' onClick={handleSortDue} style={{ whiteSpace: 'nowrap' }}>
-                                Montant due {sortAscDue ? '▲' : '▼'}
+                                Montant dû {sortAscDue ? '▲' : '▼'}
                             </div>
                         </div>
                         <div className='container_scroll_deb'>
-                            {filteredDebiteur.map((debiteur, index) => (
-                                <DebiteurCase
-                                    key={index}
-                                    name={debiteur.name}
-                                    backColor={debiteur.backColor}
-                                    textColor={debiteur.textColor}
-                                    textPaie={debiteur.textPaie}
-                                    handleClick={() => handleClick(debiteur)}
-                                    due={debiteur.due}
-                                />
-                            ))}
+                            {loading ? (
+                                <div>Chargement des débiteurs...</div>
+                            ) : error ? (
+                                <div>{error}</div>
+                            ) : (
+                                debiteurs.map((debiteur, index) => (
+                                    <DebiteurCase
+                                        id={debiteur.id}
+                                        key={index}
+                                        name={debiteur.name}
+                                        backColor={debiteur.backColor}
+                                        textColor={debiteur.textColor}
+                                        textPaie={debiteur.textPaie}
+                                        handleClick={() => handleClick(debiteur)}
+                                        due={debiteur.due}
+                                    />
+                                ))
+                            )}
                         </div>
 
                     </div>
                 )}
                 {activeSection === 'ajouterDeb' && (
                     <div className='debiteur_tab_container'>
-                        <div className='preventif_text_container' style={{ marginTop: '24px' }}>
-                            Attention ! Les champs marqué d'un '*' ne seront pas modifiable dans l'avenir.
-                        </div>
-                        <div className='input_case_container' style={{ marginTop: '24px' }}>
-                            <div className='input_title_container' >
-                                *Type :
+                        {error && (
+                            <div className='error_message' style={{ color: 'red', marginBottom: '10px' }}>
+                                {error}
                             </div>
-                            <input readOnly className='input_field' value={textDeroulantMenu} onClick={handleClickDeroulant} style={{ backgroundColor: '#d2d5d7' }} onBlur={handleBlur} />
-
-                        </div>
-                        {pro_part === true && (
-                            <>
-                                <div className='input_case_container' >
-                                    <div className='input_title_container' >
-                                        Raison Sociale
-                                    </div>
-                                    <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
-                                </div>
-                                <div className='input_case_container' >
-                                    <div className='input_title_container' >
-                                        *SIREN
-                                    </div>
-                                    <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
-                                </div>
-                            </>
-
                         )}
 
-                        <div className='input_case_container' >
-                            <div className='input_title_container' >
+                        <div className='preventif_text_container' style={{ marginTop: '24px' }}>
+                            Attention ! Les champs marqués d'un '*' ne seront pas modifiables dans l'avenir.
+                        </div>
+
+                        <div className='input_case_container' style={{ marginTop: '24px' }}>
+                            <div className='input_title_container'>
+                                *Type :
+                            </div>
+                            <input
+                                readOnly
+                                className='input_field'
+                                value={formData.type}
+                                onClick={handleClickDeroulant}
+                                style={{ backgroundColor: '#d2d5d7' }}
+                                onBlur={handleBlur}
+                            />
+                        </div>
+
+                        {pro_part && (
+                            <>
+                                <div className='input_case_container'>
+                                    <div className='input_title_container'>
+                                        Raison Sociale
+                                    </div>
+                                    <input
+                                        name="raisonSociale"
+                                        className='input_field'
+                                        value={formData.raisonSociale}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className='input_case_container'>
+                                    <div className='input_title_container'>
+                                        *SIREN
+                                    </div>
+                                    <input
+                                        name="siren"
+                                        className='input_field'
+                                        value={formData.siren}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </>
+                        )}
+
+                        <div className='input_case_container'>
+                            <div className='input_title_container'>
                                 *Nom du contact
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="nomContact"
+                                className='input_field'
+                                value={formData.nomContact}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='input_case_container'>
                             <div className='input_title_container'>
                                 Adresse
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="adresse"
+                                className='input_field'
+                                value={formData.adresse}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='input_case_container'>
                             <div className='input_title_container'>
                                 Code Postal
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="codePostal"
+                                className='input_field'
+                                value={formData.codePostal}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='input_case_container'>
                             <div className='input_title_container'>
                                 Ville
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="ville"
+                                className='input_field'
+                                value={formData.ville}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='input_case_container'>
                             <div className='input_title_container'>
                                 Téléphone
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="telephone"
+                                className='input_field'
+                                value={formData.telephone}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='input_case_container'>
                             <div className='input_title_container'>
                                 Email
                             </div>
-                            <input className='input_field' value={text} onChange={(e) => setText(e.target.value)} onClick={() => setEditing(true)} />
+                            <input
+                                name="email"
+                                className='input_field'
+                                value={formData.email}
+                                onChange={handleInputChange}
+                            />
                         </div>
+
                         <div className='bouton_save_container' style={{ width: '90%' }}>
-                            <Link href='/add_factures' className='button_save' style={{ paddingLeft: '6px', paddingRight: '6px', textDecoration: 'none' }} >SAUVEGARDER <br />+ CREATION FACTURE</Link>
-                            <div className='button_save' style={{ paddingLeft: '6px', paddingRight: '6px' }} onClick={() => setActiveSection('')}>SAUVEGARDER</div>
+                            {/* <button
+                                disabled={isSubmitting}
+                                className='button_save'
+                                style={{ paddingLeft: '6px', paddingRight: '6px' }}
+                                onClick={() => handleSave(true)}
+                            >
+                                {isSubmitting ? 'SAUVEGARDE...' : 'SAUVEGARDER + CREATION FACTURE'}
+                            </button> */}
+                            <button
+                                disabled={isSubmitting}
+                                className='button_save'
+                                style={{ paddingLeft: '6px', paddingRight: '6px' }}
+                                onClick={() => handleSave(false)}
+                            >
+                                {isSubmitting ? 'SAUVEGARDE...' : 'SAUVEGARDER'}
+                            </button>
                         </div>
                     </div>
                 )}
@@ -319,7 +571,9 @@ export default function Debiteur() {
                         closeModal={closeModal}
                         selectedDebiteur={selectedDebiteur}
                         name={selectedDebiteur.name}
+                        email={selectedDebiteur.email}
                         due={selectedDebiteur.due}
+                        id={selectedDebiteur.id}
 
                     />
                 )}

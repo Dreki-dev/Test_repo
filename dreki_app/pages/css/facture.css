@@ -62,10 +62,29 @@
 
 .name_container_tab_fac {
     display: flex;
-    align-items: center;
-    /* background-color: #012087; */
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
     width: 20%;
     height: 100%;
+}
+
+.name_container_tab_fac .text {
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1.2em;
+    max-height: 2.4em;
+}
+
+.view_doc_modale_facture {
+    text-decoration: underline;
+    width: 100%;
+    margin-bottom: 5%;
+    color: #012087;
 }
 
 .euro_container_tab_fac {
@@ -193,19 +212,15 @@
 .modal_content_fac {
     border-radius: 12px;
     width: 80%;
-    height: 40%;
+    height: 55%;
     z-index: 99;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     padding: 10px;
     background-color: rgb(255, 255, 255);
     position: absolute;
     justify-content: space-around;
-    /* overflow: hidden;
-    overflow-y: hidden;
-    overflow-x: hidden; */
 }
 
 .num_line_modal_facture {
@@ -270,6 +285,7 @@
     /* align-items: center; */
     justify-content: center;
     gap: 4px;
+    margin-top: 12px;
 }
 
 .note_container_line_modal_facture {

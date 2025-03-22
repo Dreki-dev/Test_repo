@@ -1,7 +1,7 @@
 .facture_obj_container {
     margin-top: 12px;
     width: 95%;
-    height: 80%;
+    min-height: 80%;
     background-color: rgb(255, 255, 255);
     border: 1px solid #2e3e5154;
     display: flex;
@@ -28,7 +28,6 @@
     align-items: center;
     justify-content: space-around;
     position: relative;
-    /* border: 1px solid black; */
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     
@@ -38,27 +37,67 @@
     min-height: 30%;
 }
 .notecase_container.expanded {
-    min-height: 55%;
+    min-height: auto;
 }
 
 .notecase_title_container {
     height: 25%;
     width: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
     justify-content: space-around;
     border-bottom: 1px solid rgba(0, 0, 0, 0.124);
     margin-bottom: 2px;
 }
 
+.notecase_title_container_first_line {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.notecase_title_container_second_line {
+    height: 50%;
+    width: 60%;
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    flex-direction: row;
+    /* margin-left: 7.5%; */
+    color: #012087;
+
+}
+
+.notecase_title_fac {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    color: #012087;
+}
+
 .text_container.expanded {
     height: 1000px;
 }
+
+.title_var .text {
+    /* text-align: center; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    line-height: 1em;
+    max-height: 2.4em;
+}
+
 .title_var {
-    justify-content: center
-    ;
-    width: 30%;
+    justify-content: center;
+    width: 33.3%;
     /* background-color: aquamarine; */
     height: 100%;
     align-items: center;
@@ -76,8 +115,13 @@
 }
 
 .button_voirplus {
+    border: none;
+    border-radius: 4px;
+    background-color: #01208744;
     right: 2.5%;
+    bottom: 2.5%;
     position: absolute;
+    color: #ffffff;
 }
 
 .button_voirplus_container {
@@ -112,4 +156,64 @@
     margin-bottom: 5%;
     height: 55%;
     width: 95%;
+    color: rgba(127, 129, 243, 0.575)
+}
+
+.title_params_input_and_clear {
+    display: flex;
+    flex-direction: row;
+    height: 35px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.title_params_container_input_test {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-left: 0;
+    align-self: center;
+    width: 100%;
+}
+
+.clear_input {
+    justify-self: center;
+    padding: 8px 8px;
+    background-color: rgb(241, 226, 226);
+    margin-left: 14px;
+    border-radius: 12px;
+    min-height: auto;
+}
+
+.title_params_input {
+  width: 45%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #d2d5d7;
+  cursor: pointer;
+}
+
+.title_params_dropdown {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+.title_params_item {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.title_params_item:hover {
+  background-color: #f0f0f0; /* Correction de la syntaxe */
 }

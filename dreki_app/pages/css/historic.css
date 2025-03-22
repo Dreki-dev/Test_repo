@@ -1,0 +1,108 @@
+
+.notifications_box {
+    /* padding: 6px 4px 12px 4px; */
+    min-height: 85%;
+    max-height: 85%;
+    padding: 4px;
+    width: 95%;
+    display: flex;
+    position: relative;
+    justify-self: center;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid rgb(175, 175, 175);
+    border-radius: 12px;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.notif_case_container {
+    /* background-color: red; */
+    height: 90%;
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.notif_case_container.extended {
+    flex-direction: column;
+    align-items: start;
+}
+
+.notif_case {
+    min-height: 48px;
+    width: 100%;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.notif_case.extended {
+    /* min-height: 148px; */
+    min-height: auto;
+
+    flex-direction: column;
+}
+
+.notif_name {
+    color: #012087;
+    font-size: 18px;
+}
+
+.notif_text {
+    height: 90%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 12px;
+    width: 70%;
+    display: flex;
+    align-items: center;
+   justify-content:  center;
+   overflow: hidden;
+}
+
+.notif_text.extended {
+    white-space: normal;
+    overflow: visible;
+    word-wrap: break-word;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    padding: 10px;
+    margin-bottom: 8px;
+    width: 90%;
+}
+
+.notif_date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+    font-size: 12px;
+}
+
+.notif_button {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    font-size: 14px;
+    color: #555; /* Couleur discrète */
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.05); /* Optionnel : un léger fond */
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.title_information_dashboard {
+    height: 45%;
+    width: 100%;
+    background-color: rgba(0, 55, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    color: #012087;
+}

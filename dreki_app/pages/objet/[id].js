@@ -1,16 +1,24 @@
 import { useRouter } from 'next/router';
 import MyLayout from '../Layout/layout';
-
 import '../css/objet.css'
 import '../css/facture.css'
 import '../css/sharefeatures.css'
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import axiosInstance from '../../src/app/config/axios';
 
 export default function ObjetDetail() {
     /* Imports */
     const router = useRouter();
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [factureData, setFactureData] = useState(null);
+    const [notes, setNotes] = useState([]);
+    const [noteText, setNoteText] = useState('');
+
+    // Récupération de l'ID depuis l'URL (pour compatibilité)
+    const { id } = router.query;
 
     const handleAddNoteClick = () => {
         setIsModalVisible(true);
@@ -19,117 +27,150 @@ export default function ObjetDetail() {
     const closeNoteModal = () => {
         setIsModalVisible(false);
     };
-    /* Constantes et données initiales */
-    const { id } = router.query;
-    const [factureData, setFactureData] = useState(null);
 
-
-    /* État initial */
-    const [factures, setFactures] = useState([
-        {
-            id: '1',
-            numero: '10001',
-            aRecuperer: 245,
-            total: 55,
-            name: 'Theo Dupont',
-            dateEmission: '12/05/2020',
-            dateEcheance: '23/08/2025',
-            heure: '8h35',
-            derniereNote: 'Première facture: Rappel pour paiement partiel.',
-        },
-        {
-            id: '2',
-            numero: '10002',
-            aRecuperer: 500,
-            total: 600,
-            name: 'Jean Martin',
-            dateEmission: '15/07/2021',
-            dateEcheance: '01/10/2025',
-            heure: '8h35',
-            derniereNote: 'Deuxième facture: Solde restant après premier versement.',
-        },
-        {
-            id: '3',
-            numero: '10003',
-            aRecuperer: 300,
-            total: 450,
-            name: 'Marie Lefevre',
-            dateEmission: '10/02/2022',
-            dateEcheance: '30/12/2025',
-            heure: '8h35',
-            derniereNote: 'Troisième facture: Paiement à prévoir avant échéance.',
-        },
-        {
-            id: '4',
-            numero: '10004',
-            aRecuperer: 1475,
-            total: 1500,
-            name: 'Emma Moreau',
-            dateEmission: '01/04/2023',
-            dateEcheance: '15/09/2025',
-            heure: '8h35',
-            derniereNote: 'Facture impayée : Aucune action prise à ce jour.',
-        },
-        {
-            id: '5',
-            numero: '10005',
-            aRecuperer: 753,
-            total: 753,
-            name: 'Lucas Girard',
-            dateEmission: '12/05/2023',
-            dateEcheance: '23/06/2025',
-            heure: '8h35',
-            derniereNote: 'Paiement complet : Facture réglée.',
-        },
-    ]);
-
-    /*Récupère une facture correspondant à l'ID donné et met à jour l'état, ou affiche un message de chargement si non disponible.*/
-    useEffect(() => {
-        if (id) {
-            const fetchedFacture = factures.find(facture => facture.id === id);
-            setFactureData(fetchedFacture);
+    // Fonction pour charger les données de la facture
+    const fetchFactureData = async (factureId) => {
+        try {
+            setLoading(true);
+            // Utiliser votre instance axiosInstance ou la fonction fetch
+            const response = await axiosInstance.get(`/api/factures/${factureId}`);
+            setFactureData(response.data.facture);
+            setLoading(false);
+        } catch (err) {
+            console.error('Erreur lors du chargement de la facture:', err);
+            setError('Impossible de charger les données de la facture');
+            setLoading(false);
         }
-        // Vérifie si le paramètre showModal est dans l'URL
+    };
+
+    // Fonction pour charger les notes liées à la facture
+    const fetchNotes = async (factureId) => {
+        try {
+            setLoading(true);
+            const response = await axiosInstance.get(`/api/factures/${factureId}/notes`);
+            setNotes(response.data.notes);
+            setLoading(false);
+        } catch (err) {
+            console.error('Erreur lors du chargement des notes:', err);
+            setError('Impossible de charger les notes');
+            setLoading(false);
+        }
+    };
+
+    // Fonction pour soumettre une nouvelle note
+    const submitNote = async () => {
+        if (!noteText.trim()) {
+            return; // Ne pas soumettre si la note est vide
+        }
+
+        try {
+            const factureId = sessionStorage.getItem('selectedFactureId');
+            const response = await axiosInstance.post(`/api/factures/${factureId}/notes`, {
+                contenu: noteText
+            });
+            
+            // Rafraîchir les notes après ajout
+            fetchNotes(factureId);
+            
+            // Fermer la modale et réinitialiser le champ
+            setNoteText('');
+            closeNoteModal();
+        } catch (err) {
+            console.error('Erreur lors de la création de la note:', err);
+            setError('Impossible d\'ajouter la note');
+        }
+    };
+
+    // Utiliser useEffect pour charger les données au chargement de la page
+    useEffect(() => {
+        // Vérifier d'abord le sessionStorage
+        const storedId = sessionStorage.getItem('selectedFactureId');
+        
+        // Si un ID est trouvé dans sessionStorage ou l'URL, charger les données
+        if (storedId) {
+            fetchFactureData(storedId);
+            fetchNotes(storedId);
+        } else if (id) {
+            // Fallback à l'ID de l'URL si rien dans sessionStorage
+            fetchFactureData(id);
+            fetchNotes(id);
+            // Mettre à jour sessionStorage avec l'ID de l'URL
+            sessionStorage.setItem('selectedFactureId', id);
+        }
+
+        // Vérifier le paramètre showModal dans l'URL
         if (router.query.showModal === 'true') {
             setIsModalVisible(true);
         }
     }, [id, router.query.showModal]);
-    
-    useEffect(() => {
-        if (id) {
-            const fetchedFacture = factures.find(facture => facture.id === id);
-            setFactureData(fetchedFacture);
-        }
-    }, [id]);
 
-    if (!factureData) {
-        return <p>Chargement...</p>;
+    // Si les données sont en cours de chargement, afficher un message
+    if (loading) {
+        return (
+            <MyLayout>
+                <div className="loading-container">
+                    <p>Chargement des données...</p>
+                </div>
+            </MyLayout>
+        );
     }
 
-    /*  Gere l'affichage des case avec les notes */
+    // Si une erreur s'est produite, afficher un message d'erreur
+    if (error) {
+        return (
+            <MyLayout>
+                <div className="error-container">
+                    <p>Erreur: {error}</p>
+                    <button onClick={() => router.push('/factures')}>
+                        Retour à la liste des factures
+                    </button>
+                </div>
+            </MyLayout>
+        );
+    }
 
-    const NoteCase = ({ name, dateEmission, heure, text }) => {
+    // Si les données ne sont pas disponibles, afficher un message
+    if (!factureData) {
+        return (
+            <MyLayout>
+                <div className="error-container">
+                    <p>Aucune facture sélectionnée</p>
+                    <button onClick={() => router.push('/factures')}>
+                        Retour à la liste des factures
+                    </button>
+                </div>
+            </MyLayout>
+        );
+    }
+
+    /* Composant pour afficher une note */
+    const NoteCase = ({ name, date, contenu }) => {
         const [isExpanded, setIsExpanded] = useState(false);
         const maxTextLength = 150;
-        const truncatedText = text.length > maxTextLength
-            ? text.substring(0, maxTextLength) + '...'
-            : text;
+        const truncatedText = contenu.length > maxTextLength
+            ? contenu.substring(0, maxTextLength) + '...'
+            : contenu;
+
+        // Formatage de la date et de l'heure
+        const formattedDate = new Date(date);
+        const dateString = formattedDate.toLocaleDateString();
+        const timeString = formattedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         const toggleText = () => {
             setIsExpanded(!isExpanded);
         };
 
         return (
-            <div className={`notecase_container ${isExpanded ? 'expanded' : ''} ${text.length > maxTextLength ? 'has-button' : ''}`}>
+            <div className={`notecase_container ${isExpanded ? 'expanded' : ''} ${contenu.length > maxTextLength ? 'has-button' : ''}`}>
                 <div className='notecase_title_container'>
                     <div className='title_var'>{name}</div>
-                    <div className='title_var'>{dateEmission}</div>
-                    <div className='title_var'>{heure}</div>
+                    <div className='title_var'>{dateString}</div>
+                    <div className='title_var'>{timeString}</div>
                 </div>
                 <div className={`text_container ${isExpanded ? 'expanded' : ''}`}>
-                    {isExpanded ? text : truncatedText}
+                    {isExpanded ? contenu : truncatedText}
                 </div>
-                {text.length > maxTextLength && (
+                {contenu.length > maxTextLength && (
                     <div className='button_voirplus_container'>
                         <button className='button_voirplus' onClick={toggleText}>
                             {isExpanded ? 'Voir moins' : 'Voir plus'}
@@ -139,7 +180,6 @@ export default function ObjetDetail() {
             </div>
         );
     };
-
 
     return (
         <MyLayout>
@@ -157,23 +197,23 @@ export default function ObjetDetail() {
 
                 <div className='title_params_container' style={{ marginTop: '0', height: 'auto' }}>
                     <Link
-                        href={{ pathname: '/debiteurs', query: { debiteur: factureData.name } }}
+                        href={{ pathname: '/debiteurs', query: { debiteur: factureData.societe?.raisonsociale } }}
                         className='title_params_text'
                         style={{ fontSize: '22px', marginTop: '0', textDecoration: 'none' }}
                     >
                         Débiteur :
-                        <span style={{ fontStyle: 'italic', color: '#012087b9' }}> {factureData.name}</span>
+                        <span style={{ fontStyle: 'italic', color: '#012087b9' }}> {factureData.societe?.raisonsociale}</span>
                     </Link>
                 </div>
 
                 <div className='title_params_container' style={{ marginTop: '0', height: 'auto', justifyContent: 'space-between' }}>
                     <Link
-                        href={{ pathname: '/factures', query: { debiteur: factureData.name } }}
+                        href={{ pathname: '/factures', query: { debiteur: factureData.societe?.raisonsociale } }}
                         className='title_params_text'
                         style={{ fontSize: '22px', marginTop: '0', textDecoration: 'none' }}
                     >
                         Facture n°
-                        <span style={{ fontStyle: 'italic', color: '#012087b9' }}> {factureData.numero}</span>
+                        <span style={{ fontStyle: 'italic', color: '#012087b9' }}> {factureData.num}</span>
                     </Link>
                     <div className='button_add_note' onClick={handleAddNoteClick}>
                         Ajouter une note
@@ -181,50 +221,20 @@ export default function ObjetDetail() {
                 </div>
 
                 <div className='facture_obj_container'>
-
-
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
-                    <NoteCase
-                        name={factureData.name}
-                        dateEmission={factureData.dateEmission}
-                        heure={factureData.heure}
-                        text={factureData.derniereNote}
-                    />
+                    {notes.length > 0 ? (
+                        notes.map((note) => (
+                            <NoteCase
+                                key={note.id}
+                                name={factureData.societe?.raisonsociale || 'Nom inconnu'}
+                                date={note.date}
+                                contenu={note.contenu}
+                            />
+                        ))
+                    ) : (
+                        <div className="no-notes-message">
+                            Aucune note pour cette facture.
+                        </div>
+                    )}
                 </div>
 
                 {isModalVisible && (
@@ -243,7 +253,7 @@ export default function ObjetDetail() {
                         >
                             <div className='title_modal_choice_debiteur_container'>
                                 <div className='title_modal_choice_debiteur'>
-                                    {factureData.name}
+                                    {factureData.societe?.raisonsociale || 'Nom inconnu'}
                                 </div>
                             </div>
                             <div className='input_case_container_modal_deb' style={{ marginTop: '0px', marginBottom: '0px', height: 'auto' }}>
@@ -252,13 +262,27 @@ export default function ObjetDetail() {
                                 </div>
                             </div>
                             <div className='input_container_note'>
-                                <textarea className='input_field' style={{height: '89%', width: '99%', justifyContent: 'none', resize: 'none', textAlign: 'none', boxSizing: 'border-box', verticalAlign: 'top',lineHeight: '1.2',overflowY: 'auto'}}/>
+                                <textarea 
+                                    className='input_field' 
+                                    style={{
+                                        height: '89%', 
+                                        width: '99%', 
+                                        justifyContent: 'none', 
+                                        resize: 'none', 
+                                        textAlign: 'none', 
+                                        boxSizing: 'border-box', 
+                                        verticalAlign: 'top',
+                                        lineHeight: '1.2',
+                                        overflowY: 'auto'
+                                    }}
+                                    value={noteText}
+                                    onChange={(e) => setNoteText(e.target.value)}
+                                />
                             </div>
 
                             <div className='bouton_save_container_fac' style={{ justifyContent: 'flex-end', marginTop: '45px' }}>
-
                                 <div
-                                    onClick={closeNoteModal}
+                                    onClick={submitNote}
                                     className='button_save'
                                     style={{ paddingLeft: '4px', paddingRight: '4px', height: '35px' }}
                                 >
@@ -272,4 +296,3 @@ export default function ObjetDetail() {
         </MyLayout>
     );
 }
-

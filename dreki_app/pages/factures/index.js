@@ -16,6 +16,7 @@ import ModalMenuDeroulant from './ModalMenuDeroulant'
 import ModalViewDebiteur from './ModalViewDebiteur'
 import MyLayout from '../Layout/layout';
 import LoadingPage from './../components/LoadingPage.js'
+import axiosInstance from '../../src/app/config/axios';
 
 export default function Facture() {
     const [loading, setLoading] = useState(false);
@@ -44,82 +45,40 @@ export default function Facture() {
     }, []);
 
     const choices = ['Entreprise', 'Particulier', 'Association', 'test', 'theo', 'lucas', 'end'];
+    const [factures, setFactures] = useState([]);
+    const [error, setError] = useState(null);
 
     const dragons = {
         blue_dragon: blue_dragon,
         red_dragon: red_dragon,
         white_dragon: white_dragon,
     };
-    const [facturesAvecDragon, setFacturesAvecDragon] = useState([
-        {
-            name: 'Theo Dupont',
-            dragon: dragons.blue_dragon,
-            backColor: '#01208729',
-            euro: '158445',
-            id: '1',
-            numero: '10001',
-            total: 312,
-            aRecuperer: 5,
-            dateEmission: '12/05/2000',
-            dateEcheance: '23/08/2025'
-        },
-        {
-            name: 'Jean Martin',
-            dragon: dragons.blue_dragon,
-            backColor: '#01208729',
-            euro: '158445',
-            id: '2',
-            numero: '10002',
-            total: 600,
-            aRecuperer: 500,
-            dateEmission: '15/07/2022',
-            dateEcheance: '01/10/2025'
-        },
-        {
-            name: 'Marie Lefevre',
-            dragon: dragons.blue_dragon,
-            backColor: '#01208729',
-            euro: '158445',
-            id: '3',
-            numero: '10003',
-            total: 450,
-            aRecuperer: 300,
-            dateEmission: '10/02/2021',
-            dateEcheance: '30/12/2025'
-        },
-        {
-            name: 'Emma Moreau',
-            dragon: dragons.red_dragon,
-            backColor: 'rgba(255, 0, 0, 0.085)',
-            euro: '544',
-            id: '4',
-            numero: '10004',
-            total: 700,
-            aRecuperer: 544,
-            dateEmission: '01/01/2020',
-            dateEcheance: '15/05/2025'
-        },
-        {
-            name: 'Lucas Girard',
-            dragon: dragons.white_dragon,
-            backColor: 'rgba(16, 137, 16, 0.085)',
-            euro: '125',
-            id: '5',
-            numero: '10005',
-            total: 125,
-            aRecuperer: 125,
-            dateEmission: '05/09/2021',
-            dateEcheance: '22/11/2025'
-        },
-    ]);
 
     {/* Affichage des cases des factures avec gestion du modal */ }
 
-    const FactureCase = ({ name, backColor, dragon, euro, id, total, aRecuperer, dateEcheance, dateEmission }) => {
+    const FactureCase = ({ name, backColor, dragon, euro, id, total, aRecuperer, dateEcheance, dateEmission, societe }) => {
+        function truncateText(text, maxLength = 15) {
+            if (text && text.length > maxLength) {
+                return text.substring(0, maxLength) + '...';
+            }
+            return text;
+        }
+        
+        // Définir une couleur d'arrière-plan différente pour les factures avec aRecuperer = 0
+        const containerStyle = {
+            backgroundColor: aRecuperer === 0 ? 'rgba(82, 232, 98,0.20)' : 'fini', // Beige pour aRecuperer = 0, blanc par défaut
+        };
+        
         return (
-            <div className='input_case_container_fac' onClick={() => openModalWithFacture(id)} >
+            <div 
+                className='input_case_container_fac' 
+                onClick={() => openModalWithFacture(id)} 
+                style={containerStyle}
+            >
                 <div className='name_container_tab_fac'>
-                    {name}
+                    <div className='text'>
+                        {truncateText(societe?.raisonsociale) || 'Sans débiteur'}
+                    </div>
                 </div>
                 <div className='euro_container_tab_fac' style={{ justifyContent: 'center' }}>
                     {euro}
@@ -129,12 +88,16 @@ export default function Facture() {
                         <div style={{ fontSize: '10px' }}>Montant créance :</div>
                         <div className='montant_price'>{aRecuperer}</div>
                     </div>
-                    <div className='montant_part'>
-                        <div style={{ fontSize: '10px' }}>Montant total :</div>
-                        <div className='montant_price'>{total}</div>
-                    </div>
                 </div>
-                <div className='status_container_tab_fac' style={{ backgroundColor: backColor, transform: 'scale(0.8)', justifyContent: 'center' }} onClick={openDragonModal}>
+                <div 
+                    className='status_container_tab_fac' 
+                    style={{ 
+                        backgroundColor: backColor, 
+                        transform: 'scale(0.8)', 
+                        justifyContent: 'center' 
+                    }} 
+                    onClick={openDragonModal}
+                >
                     <img src={dragon.src} alt="dragon image" className='dragon_logo' />
                 </div>
             </div>
@@ -149,20 +112,7 @@ export default function Facture() {
 
     {/* Gère le tri et la navigation avec le routeur */ }
     const router = useRouter();
-    const { id } = router.query;
     const [selectedFacture, setSelectedFacture] = useState(null);
-
-    {/* Effet pour sélectionner et afficher la facture selon l'id */ }
-    useEffect(() => {
-        if (id) {
-            const factureToDisplay = facturesAvecDragon.find(f => f.id === id);
-            if (factureToDisplay) {
-                setSelectedFacture(factureToDisplay);
-                setIsModalOpen(true);
-            }
-            router.push('/factures', undefined, { shallow: true });
-        }
-    }, [id, facturesAvecDragon]);
 
     {/* Fonction pour gérer la perte de focus sur le menu déroulant et fermer le menu après un délai */ }
     const handleBlur = () => {
@@ -181,7 +131,7 @@ export default function Facture() {
         const sortedFactures = [...filteredFactures].sort((a, b) =>
             sortAscName ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
         );
-        setFacturesAvecDragon(sortedFactures);
+        setFactures(sortedFactures);
         setSortAscName(!sortAscName);
     };
 
@@ -191,7 +141,7 @@ export default function Facture() {
             const euroB = parseFloat(b.euro);
             return sortAscEuro ? euroA - euroB : euroB - euroA;
         });
-        setFacturesAvecDragon(sortedFactures);
+        setFactures(sortedFactures);
         setSortAscEuro(!sortAscEuro);
     };
 
@@ -199,7 +149,7 @@ export default function Facture() {
         const sortedFactures = [...filteredFactures].sort((a, b) =>
             sortAscTotal ? a.total - b.total : b.total - a.total
         );
-        setFacturesAvecDragon(sortedFactures);
+        setFactures(sortedFactures);
         setSortAscTotal(!sortAscTotal);
     };
 
@@ -212,17 +162,30 @@ export default function Facture() {
                 ? dragonKeyA.localeCompare(dragonKeyB)
                 : dragonKeyB.localeCompare(dragonKeyA);
         });
-        setFacturesAvecDragon(sortedFactures);
+        setFactures(sortedFactures);
         setSortAscDragon(!sortAscDragon);
     };
 
 
     {/* Modal pour afficher les détails d'une facture */ }
     const openModalWithFacture = (factureId) => {
-        const selected = facturesAvecDragon.find(f => f.id === factureId);
+        const stringId = String(factureId);
+        const selected = factures.find(f => String(f.id) === stringId);
+    
         if (selected) {
-            setSelectedFacture(selected);
+            // Log the selected facture to debug
+            console.log('Selected facture:', selected);
+            
+            // Make sure societe exists before setting the selected facture
+            const factureWithDefaultSociete = {
+                ...selected,
+                societe: selected.societe || { raisonsociale: 'Sans débiteur' }
+            };
+            
+            setSelectedFacture(factureWithDefaultSociete);
             setIsModalOpen(true);
+        } else {
+            console.error(`Facture avec ID ${factureId} non trouvée`);
         }
     };
 
@@ -246,13 +209,16 @@ export default function Facture() {
     const [isEditingDeroulantMenu, setEditingDeroulantMenu] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
     const [filteredChoices, setFilteredChoices] = useState(choices);
+    const [selectedDebiteurId, setSelectedDebiteurId] = useState(null);
 
-    const handleSelectChoiceDeroulantMenu = (choice) => {
-        setTextDeroulantMenu(choice);
+
+    const handleSelectChoiceDeroulantMenu = (debiteurData) => {
+        setSelectedDebiteurId(debiteurData.id);
+        console.log(debiteurData.id)
+        setTextDeroulantMenu(debiteurData.nom);
         setEditingDeroulantMenu(false);
     };
 
-    {/* Positionne le dropdown en fonction de la sélection */ }
     const handleClickDeroulant = (e) => {
         const rect = e.target.getBoundingClientRect();
         setDropdownPosition({
@@ -271,26 +237,93 @@ export default function Facture() {
     };
 
 
+    const fetchFactures = async () => {
+        setLoading(true);
+        setError(null);
+    
+        try {
+            const response = await axiosInstance.get('/api/factures');
+            
+            // Log to verify the structure of the data
+            console.log('API Response:', response.data);
+    
+            const formattedFactures = response.data.factures.map(facture => {
+                // Log each facture to check if societe exists
+                console.log('Facture data:', facture);
+                
+                return {
+                    id: facture.id,
+                    name: facture.num,
+                    backColor: getStatusColor(facture.etat),
+                    dragon: getDragonByStatus(facture.etat),
+                    euro: facture.creance,
+                    total: facture.creance,
+                    aRecuperer: facture.creance - facture.recupere,
+                    dateEmission: formatDate(facture.dateemission),
+                    dateEcheance: formatDate(facture.dateecheance),
+                    societe: facture.societe || { raisonsociale: 'Sans débiteur' }
+                };
+            });
+    
+            setFactures(formattedFactures);
+        } catch (err) {
+            console.error('Error fetching factures:', err);
+            setError('Impossible de charger les factures. Veuillez réessayer plus tard.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    {/* Gère la recherche de factures */ }
+
+    // en attente du state pour le back
+    const getStatusColor = (etat) => {
+        switch (etat) {
+            case 1: return 'rgba(127, 129, 243, 0.30)';
+            case 2: return '#ccffcc';
+            case 3: return '#ffcccc';
+            default: return '#f5f5f5'
+        }
+    };
+    // en attente du state pour le back
+    const getDragonByStatus = (etat) => {
+        switch (etat) {
+            case 1: return dragons.blue_dragon;
+            case 2: return dragons.white_dragon;
+            case 3: return dragons.red_dragon;
+            default: return dragons.blue_dragon;
+        }
+    };
+
+
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+
+        const date = new Date(dateString);
+        return date.toLocaleDateString('fr-FR');
+    };
+
     const [searchTerm, setSearchTerm] = useState('');
     const [debiteur, setDebiteur] = useState(null);
 
-    useEffect(() => {
-        const { debiteur: debiteurFromUrl } = router.query;
-        setDebiteur(debiteurFromUrl || null);
-    }, [router.query]);
-
-    const filteredFactures = facturesAvecDragon.filter(fact => {
-        const searchTermLower = searchTerm.toLowerCase();
-        return (
-            (fact.name.toLowerCase().includes(searchTermLower) || fact.euro.includes(searchTerm) || fact.id.includes(searchTerm)) &&
-            (!debiteur || fact.name === debiteur)
-        );
+    const filteredFactures = factures.filter(facture => {
+        const factureNum = facture.name || '';
+        const raisonSociale = facture.societe?.raisonsociale || '';
+        const montantEuro = String(facture.euro || '');
+        
+        const matchesSearch = !searchTerm ||
+            factureNum.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            raisonSociale.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            montantEuro.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesDebiteur = !debiteur ||
+            raisonSociale.toLowerCase() === debiteur.toLowerCase();
+        
+        return matchesSearch && matchesDebiteur;
     });
 
     {/* Recalcule la position du menu déroulant lors d'un redimensionnement */ }
     useEffect(() => {
+        fetchFactures();
         const handleResize = () => {
             if (isEditingDeroulantMenu) {
                 const inputElement = document.querySelector('.input_field');
@@ -301,109 +334,119 @@ export default function Facture() {
                 });
             }
         };
-
+        if (router.query.debiteur) {
+            setDebiteur(router.query.debiteur);
+            setSearchTerm(router.query.debiteur);
+        }
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [isEditingDeroulantMenu]);
+
+
+    }, [router.query.debiteur, isEditingDeroulantMenu]);
 
     return (
         <MyLayout>
             {loading && <LoadingPage />}
-                <div className='page_container_navbar'>
+            <div className='page_container_navbar'>
 
-                    <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <div className='title_params_text'>Factures</div>
-                        <div
-                            className='reset_filter_button'
-                            onClick={() => {
-                                setSearchTerm('');
-                                setDebiteur(null);
-                            }}
-                        >
-                            voir toute les factures
-                        </div>
+                <div className='title_params_container' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className='title_params_text'>Factures</div>
+                    <div
+                        className='reset_filter_button'
+                        onClick={() => {
+                            setSearchTerm('');
+                            setDebiteur(null);
+                        }}
+                    >
+                        voir toute les factures
                     </div>
-                    <div className='button_container_fac'>
-                        <div className='button_add_fac' href={'./add_factures'} onClick={openDebiteurModal}>
-                            Ajouter une facture
-                        </div>
-                        <input className='search_input' placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                    </div>
-                    <div className='facture_tab_container'>
-                        <div className='fixed_case_container_tab_fac'>
-                            <div className='name_container_tab_fac' onClick={handleSortName}>
-                                name {sortAscName ? '▲' : '▼'}
-                            </div>
-                            <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
-                                € à venir {sortAscEuro ? '▲' : '▼'}
-                            </div>
-                            <div className='montant_container_tab_fac' onClick={handleSortTotal}>
-                                montant {sortAscTotal ? '▲' : '▼'}
-                            </div>
-                            <div className='status_container_tab_fac' onClick={handleSortDragon}>
-                                status {sortAscDragon ? '▲' : '▼'}
-                            </div>
-
-                        </div>
-                        <div className='container_scroll_fac'>
-                            {filteredFactures.map((factures, index) => (
-                                <FactureCase
-                                    key={index}
-                                    name={factures.name}
-                                    backColor={factures.backColor}
-                                    dragon={factures.dragon}
-                                    euro={factures.euro}
-                                    id={factures.id}
-                                    total={factures.total}
-                                    aRecuperer={factures.aRecuperer}
-                                    dateEmission={factures.dateEmission}
-                                    dateEcheance={factures.dateEcheance}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                    {isModalOpen && selectedFacture && (
-                        <ModalViewFacture
-                            closeModal={closeModal}
-                            selectedFacture={selectedFacture}
-                            openDragonModal={openDragonModal}
-                            blue_dragon={blue_dragon.src}
-                            id={selectedFacture.id}
-                            dateEmission={selectedFacture.dateEmission}
-                            dateEcheance={selectedFacture.dateEcheance}
-                            aRecuperer={selectedFacture.aRecuperer}
-                            total={selectedFacture.total}
-                        />
-                    )}
-
-                    {isDragonModalOpen && (
-                        <ModalDragon
-                            closeDragonModal={closeDragonModal}
-                            toggleDropdown={toggleDropdown}
-                            isOpen={isOpen}
-                            blue_dragon={blue_dragon.src}
-                            red_dragon={red_dragon.src}
-                            white_dragon={white_dragon.src}
-                        />
-                    )}
-                    {isEditingDeroulantMenu && (
-                        <ModalMenuDeroulant
-                            left={dropdownPosition.left}
-                            top={dropdownPosition.top}
-                            filteredChoices={filteredChoices}
-                            handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
-                        />
-                    )}
-                    {isDebiteurModalOpen && (
-                        <ModalViewDebiteur
-                            closeDebiteurModal={closeDebiteurModal}
-                            handleBlur={handleBlur}
-                            handleInputChange={handleInputChange}
-                            handleClickDeroulant={handleClickDeroulant}
-                            textDeroulantMenu={textDeroulantMenu}
-                        />
-                    )}
                 </div>
+                <div className='button_container_fac'>
+                    <div className='button_add_fac' href={'./add_factures'} onClick={openDebiteurModal}>
+                        Ajouter une facture
+                    </div>
+                    <input className='search_input' placeholder='Recherche...' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                </div>
+                <div className='facture_tab_container'>
+                    <div className='fixed_case_container_tab_fac'>
+                        <div className='name_container_tab_fac' onClick={handleSortName}>
+                            nom {sortAscName ? '▲' : '▼'}
+                        </div>
+                        <div className='euro_container_tab_fac' onClick={handleSortEuro} style={{ justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                            € à venir {sortAscEuro ? '▲' : '▼'}
+                        </div>
+                        <div className='montant_container_tab_fac' onClick={handleSortTotal}>
+                            montant {sortAscTotal ? '▲' : '▼'}
+                        </div>
+                        <div className='status_container_tab_fac' onClick={handleSortDragon}>
+                            statut {sortAscDragon ? '▲' : '▼'}
+                        </div>
+
+                    </div>
+                    <div className='container_scroll_fac'>
+                        {filteredFactures.map((facture, index) => (
+                            <FactureCase
+                                key={index}
+                                name={facture.name}
+                                backColor={facture.backColor}
+                                dragon={facture.dragon}
+                                euro={facture.euro}
+                                id={facture.id}
+                                total={facture.total}
+                                aRecuperer={facture.aRecuperer}
+                                dateEmission={facture.dateEmission}
+                                dateEcheance={facture.dateEcheance}
+                                societe={facture.societe}
+                            />
+                        ))}
+                    </div>
+                </div>
+                {isModalOpen && selectedFacture && (
+                    <ModalViewFacture
+                        closeModal={closeModal}
+                        selectedFacture={selectedFacture}
+                        openDragonModal={openDragonModal}
+                        blue_dragon={blue_dragon.src}
+                        id={selectedFacture.id}
+                        dateEmission={selectedFacture.dateEmission}
+                        dateEcheance={selectedFacture.dateEcheance}
+                        aRecuperer={selectedFacture.aRecuperer}
+                        total={selectedFacture.total}
+                        // debiteur={selectedFacture.societe}
+                        debiteur={selectedFacture.societe || { raisonsociale: 'Sans débiteur' }}
+                        
+                    />
+                )}
+
+                {isDragonModalOpen && (
+                    <ModalDragon
+                        closeDragonModal={closeDragonModal}
+                        toggleDropdown={toggleDropdown}
+                        isOpen={isOpen}
+                        blue_dragon={blue_dragon.src}
+                        red_dragon={red_dragon.src}
+                        white_dragon={white_dragon.src}
+                    />
+                )}
+                {isEditingDeroulantMenu && (
+                    <ModalMenuDeroulant
+                        left={dropdownPosition.left}
+                        top={dropdownPosition.top}
+                        filteredChoices={filteredChoices}
+                        handleSelectChoiceDeroulantMenu={handleSelectChoiceDeroulantMenu}
+                    />
+                )}
+                {isDebiteurModalOpen && (
+                    <ModalViewDebiteur
+                        closeDebiteurModal={closeDebiteurModal}
+                        handleBlur={handleBlur}
+                        handleInputChange={handleInputChange}
+                        handleClickDeroulant={handleClickDeroulant}
+                        textDeroulantMenu={textDeroulantMenu}
+                        selectedDebiteurId={selectedDebiteurId}
+                    />
+                )}
+            </div>
         </MyLayout >
 
     );

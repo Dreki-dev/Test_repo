@@ -67,6 +67,7 @@
     flex-shrink: 0;
     border-bottom: 1px solid #01208723;
     gap: 10px;
+
 }
 
 .fixed_input_case_container_deb {
@@ -93,11 +94,19 @@
 }
 
 .case_name_menu {
-    display: flex;
-    align-items: center;
-    height: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;           /* Limite à 2 lignes */
+    -webkit-box-orient: vertical;    /* Direction du texte */
+    overflow: hidden;                /* Cache tout débordement */
+    text-overflow: ellipsis;         /* Ajoute "..." à la fin du texte tronqué */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-height: calc(1.2em * 2);     /* Hauteur pour 2 lignes environ */
+    line-height: 1.2em;              /* Hauteur de ligne */
     width: 25%;
+    padding: 5px;
 }
+
 .case_status_menu {
     display: flex;
     justify-content: center;

@@ -1,8 +1,8 @@
 import './css/page.css'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ModalConnexion from './components/ModalConnexion';
 import ModalInscription from './components/ModalInscription';
-
+import Api from "../src/app/api";
 
 export default function Connexion() {
 
@@ -12,7 +12,7 @@ export default function Connexion() {
   const [showModalInscription, setShowModalInscription] = useState(false);
 
   const [editing, setEditing] = useState(false);
-  const [text, setText] = useState("Theo.abitbol@gmail.com")
+  const [text, setText] = useState("votre.mail@gmail.com")
   const [editingMdp, setEditingMdp] = useState(false);
   const [textMdp, setTextMdp] = useState("***********")
 
@@ -38,18 +38,23 @@ export default function Connexion() {
     }
   };
 
-  const toggleModalInscription = () => {
-    if (showModalInscription) {
-      setAnimationClass('hide');
-      setTimeout(() => {
-        setShowModalInscription(false);
-        setAnimationClass('');
-      }, 500);
-    } else {
-      setShowModalInscription(true);
-      setAnimationClass('show');
-    }
-  };
+
+  // const redirectToInscription = () => {
+  //   window.open('https://votre-url-d-inscription.com', '_blank');
+  // };
+
+  // const toggleModalInscription = () => {
+  //   if (showModalInscription) {
+  //     setAnimationClass('hide');
+  //     setTimeout(() => {
+  //       setShowModalInscription(false);
+  //       setAnimationClass('');
+  //     }, 500);
+  //   } else {
+  //     setShowModalInscription(true);
+  //     setAnimationClass('show');
+  //   }
+  // };
 
   const handleOutsideClick2Mdp = (e) => {
     setEditingMdp(true);
@@ -100,11 +105,17 @@ export default function Connexion() {
         <div className='connexion_button' onClick={toggleModalConnexion}>
           CONNEXION
         </div>
-        <div className='inscription_button' onClick={toggleModalInscription}>
+        <a
+          href="https://dreki-france.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className='inscription_button'
+          style={{textDecoration: 'none'}}
+        >
           INSCRIPTION
-        </div>
+        </a>
         <div className='help_button'>
-          <a href="https://www.linkedin.com/in/theo-abitbol/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/jpfillie/" target="_blank" rel="noopener noreferrer">
             Un problème ? Contactez-nous !
           </a>
         </div>

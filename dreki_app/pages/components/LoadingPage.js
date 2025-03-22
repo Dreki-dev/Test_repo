@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './../css/sharefeatures.css';
 
-export default function LoadingPage() {
-    const [isLoading, setIsLoading] = useState(true); // Contrôle de la page de chargement
-
+export default function LoadingPage({ minDuration = 1000, isVisible = true }) {
+    const [showLoader, setShowLoader] = useState(true);
+    
     useEffect(() => {
+        // Animation des lettres du texte
         const textElement = document.getElementById('animated-text');
         if (textElement) {
             const textContent = textElement.textContent;
@@ -13,42 +14,44 @@ export default function LoadingPage() {
             textContent.split('').forEach((letter, index) => {
                 const span = document.createElement('span');
                 span.textContent = letter;
-                span.style.animationDelay = `${index * 0.15}s`; // Delay each letter
+                span.style.animationDelay = `${index * 0.15}s`; 
                 span.classList.add('letter');
                 textElement.appendChild(span);
             });
         }
 
-        // Temporisation pour afficher la page de chargement
-        const timer = setTimeout(() => {
-            setIsLoading(false); // Cache la page de chargement après 15 secondes
-        }, 15000);
+        // Timer pour assurer une durée minimale d'affichage
+        let timer;
+        if (isVisible) {
+            timer = setTimeout(() => {
+                setShowLoader(false);
+            }, minDuration);
+        } else {
+            setShowLoader(false);
+        }
 
-        // Nettoyage du timer en cas de démontage du composant
-        return () => clearTimeout(timer);
-    }, []);
+        return () => {
+            if (timer) clearTimeout(timer);
+        };
+    }, [isVisible, minDuration]);
 
-    if (isLoading) {
-        // Page de chargement
-        return (
-            <div className="loading_container">
-                <div className="image_mov_container">
-                    <img src="/images/dreki_logo.png" alt="Logo" />
-                </div>
-                <div className="spin_mov_container">
-                    <div className="spin"></div>
-                </div>
-                <div className="text_loading">
-                    <p id="animated-text">Chargement ...</p>
-                </div>
-            </div>
-        );
+    // Si le composant parent a indiqué que le loader n'est plus nécessaire
+    // et que la durée minimale est passée
+    if (!isVisible && !showLoader) {
+        return null;
     }
 
-    // Contenu principal (ou autre)
     return (
-        <div className="main_content">
-            <h1>Le contenu principal est prêt !</h1>
+        <div className="loading_container">
+            <div className="image_mov_container">
+                <img src="/images/dreki_logo.png" alt="Logo" />
+            </div>
+            <div className="spin_mov_container">
+                <div className="spin"></div>
+            </div>
+            <div className="text_loading">
+                <p id="animated-text">Chargement ...</p>
+            </div>
         </div>
     );
 }
